@@ -2,7 +2,7 @@
 title: Sublarr Wiki
 description: Documentation for Sublarr — self-hosted subtitle manager for anime & media
 published: true
-date: 2026-03-14T19:21:23.055Z
+date: 2026-03-14T21:50:38.377Z
 tags: home
 editor: markdown
 dateCreated: 2026-03-14T18:04:40.770Z
@@ -59,7 +59,7 @@ dateCreated: 2026-03-14T18:04:40.770Z
 <div class="nav-section"><span class="ns-icon mdi mdi-link-variant"></span><span class="ns-title">Links</span></div>
 
 <div class="link-row">
-  <a class="link-pill" href="https://sublarr.app"><span class="lp-icon mdi mdi-web"></span>sublarr.app</a>
+  <a class="link-pill" href="https://sublarr.de"><span class="lp-icon mdi mdi-web"></span>sublarr.de</a>
   <a class="link-pill" href="https://github.com/Abrechen2/sublarr"><span class="lp-icon mdi mdi-github"></span>GitHub</a>
   <a class="link-pill" href="https://huggingface.co/Sublarr"><span class="lp-icon mdi mdi-brain"></span>HuggingFace</a>
   <a class="link-pill" href="https://www.paypal.com/donate?hosted_button_id=GLXYTD3FV9Y78"><span class="lp-icon mdi mdi-heart-outline"></span>Donate</a>
