@@ -2,7 +2,7 @@
 title: Settings — Media Management
 description: Media management settings — file paths, formats, cleanup
 published: true
-date: 2026-03-14T19:00:52.809Z
+date: 2026-03-14T19:01:55.096Z
 tags: 
 editor: markdown
 dateCreated: 2026-03-14T18:04:57.685Z
