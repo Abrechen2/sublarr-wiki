@@ -1,12 +1,21 @@
 ---
 title: Settings — General
-description: General settings reference for Sublarr
+description: General application settings — host, security, authentication, UI, backups
 published: true
-date: 2026-03-14T19:03:33.811Z
-tags: 
+date: 2026-03-14T19:27:33.844Z
+tags: settings
 editor: markdown
 dateCreated: 2026-03-14T18:04:54.250Z
 ---
+
+<div class="settings-tabs">
+<a class="settings-tab active" href="/user-guide/settings/general"><span class="mdi mdi-cog-outline"></span> General</a>
+<a class="settings-tab " href="/user-guide/settings/media-management"><span class="mdi mdi-folder-cog-outline"></span> Media Management</a>
+<a class="settings-tab " href="/user-guide/settings/profiles"><span class="mdi mdi-translate"></span> Profiles</a>
+<a class="settings-tab " href="/user-guide/settings/providers"><span class="mdi mdi-cloud-search-outline"></span> Providers</a>
+<a class="settings-tab " href="/user-guide/settings/translation"><span class="mdi mdi-brain"></span> Translation</a>
+<a class="settings-tab " href="/user-guide/settings/integrations"><span class="mdi mdi-connection"></span> Integrations</a>
+</div>
 
 # Settings — General
 
@@ -32,7 +41,7 @@ Sublarr supports an optional static API key to protect all API endpoints.
 
 When the API key is empty, the API is open — suitable for trusted local networks, but not recommended if exposed to the internet.
 
-Clients and integrations (e.g. custom scripts, external tools) must pass the header:
+Clients and integrations must pass the header:
 
 ```http
 X-Api-Key: your-api-key-here
@@ -66,11 +75,9 @@ Sublarr includes a simple session-based authentication layer for the web UI. Thi
 
 This path must match the volume mount in your `docker-compose.yml`. All subtitle sidecar files are written relative to this root, and all path-traversal security checks (`is_safe_path()`) are scoped to this directory.
 
-> **Note:** On Unraid, this is typically `/mnt/user/media` (the path you mapped in the Community Applications template). For Docker Compose, map your host media folder to `/media` in the container.
-
 ## Automatic Tasks
 
-Sublarr runs several background jobs on a schedule. These are configured here or in **Settings → Automation**.
+Sublarr runs several background jobs on a schedule.
 
 | Setting | Default | Description |
 |---------|---------|-------------|
@@ -80,26 +87,15 @@ Sublarr runs several background jobs on a schedule. These are configured here or
 | Upgrade enabled | `true` | Automatically replace low-quality subtitles when a better match is found |
 | Upgrade minimum score delta | `50` | A new subtitle must score at least this much higher to trigger an upgrade |
 
-See [Activity → Tasks](/user-guide/activity#tasks-page) for monitoring and manual control of all scheduled jobs.
-
 ## Notification Settings
 
-Sublarr uses [Apprise](https://github.com/caronc/apprise) for notifications, which supports dozens of services (Telegram, Pushover, Discord, Slack, email, and more).
-
-Notifications are configured via Apprise URL strings. Each URL targets a specific notification service:
+Sublarr uses [Apprise](https://github.com/caronc/apprise) for notifications (Telegram, Pushover, Discord, Slack, email, and more).
 
 ```bash
-# Telegram example
-tgram://bottoken/chatid
-
-# Pushover example
-pover://userkey@apptoken
-
-# Discord example
-discord://webhookid/webhooktoken
+tgram://bottoken/chatid        # Telegram
+pover://userkey@apptoken       # Pushover
+discord://webhookid/token      # Discord
 ```
-
-Configure notification URLs in **Settings → General → Notifications** (or via `SUBLARR_NOTIFICATION_URLS_JSON` in `.env`).
 
 | Setting | Default | Description |
 |---------|---------|-------------|
@@ -107,11 +103,8 @@ Configure notification URLs in **Settings → General → Notifications** (or vi
 | Notify on upgrade | `true` | Send notification when an existing subtitle is upgraded |
 | Notify on batch complete | `true` | Notify when a batch search or translation run finishes |
 | Notify on error | `true` | Notify on backend errors or provider failures |
-| Notify on manual actions | `false` | Notify even for user-triggered (non-automated) actions |
 
 ## Backup Settings
-
-Sublarr backs up its SQLite database automatically on a configurable schedule.
 
 | Setting | Default | Description |
 |---------|---------|-------------|
@@ -120,22 +113,9 @@ Sublarr backs up its SQLite database automatically on a configurable schedule.
 | Weekly backups to keep | `4` | Retention count for weekly backups |
 | Monthly backups to keep | `3` | Retention count for monthly backups |
 
-**Creating a manual backup:**
-1. Go to **Settings → General → Backup**
-2. Click **Create Backup Now**
-3. The backup ZIP is saved to `/config/backups/` and offered as a browser download
-
-**Restoring from backup:**
-1. Click **Restore Backup**
-2. Upload a backup ZIP file
-3. Review the import summary
-4. Confirm — the database is replaced and Sublarr restarts
-
-> **Warning:** Restoring a backup replaces the current database entirely. Download the current backup before restoring if you want to preserve recent changes.
-
 ## Updates
 
-Sublarr checks GitHub releases for newer versions. When an update is available, a notification appears in the sidebar. Auto-update is not supported — pull the new Docker image manually:
+Auto-update is not supported — pull the new Docker image manually:
 
 ```bash
 docker compose pull sublarr
@@ -144,9 +124,4 @@ docker compose up -d sublarr
 
 ## Analytics
 
-Sublarr does not collect analytics or telemetry. No usage data leaves your server. The only external connections Sublarr makes are to:
-
-- Configured subtitle providers (on demand)
-- Your configured translation backends (on demand)
-- GitHub API (for update checks — can be disabled)
-- Configured notification services (on subtitle events)
+Sublarr does not collect analytics or telemetry. No usage data leaves your server.
