@@ -1,8 +1,8 @@
 ---
 title: Settings — Profiles
-description: Language profile settings — create and manage translation profiles
+description: Language profile settings
 published: true
-date: 2026-03-14T19:01:56.749Z
+date: 2026-03-14T19:03:36.734Z
 tags: 
 editor: markdown
 dateCreated: 2026-03-14T18:04:59.363Z
