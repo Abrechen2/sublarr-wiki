@@ -2,7 +2,7 @@
 title: Settings — General
 description: General settings reference for Sublarr
 published: true
-date: 2026-03-14T19:00:51.430Z
+date: 2026-03-14T19:01:53.674Z
 tags: 
 editor: markdown
 dateCreated: 2026-03-14T18:04:54.250Z
