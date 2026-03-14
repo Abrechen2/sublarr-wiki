@@ -2,7 +2,7 @@
 title: Settings — Translation
 description: LLM translation backend configuration — Ollama, custom model, pipeline settings
 published: true
-date: 2026-03-14T19:40:14.713Z
+date: 2026-03-14T19:41:47.819Z
 tags: settings
 editor: markdown
 dateCreated: 2026-03-14T18:05:02.862Z
@@ -24,7 +24,8 @@ Sublarr supports multiple translation backends. This page covers how to configur
 ## Translation Backends
 
 | Backend | Type | Self-Hosted | API Key Required | Best For |
-|---------|------|:-----------:|:----------------:|---------|| **Ollama** | LLM | Yes | No | Full control, custom prompts, GPU-accelerated, offline |
+|---------|------|:-----------:|:----------------:|---------|
+| **Ollama** | LLM | Yes | No | Full control, custom prompts, GPU-accelerated, offline |
 | **DeepL** | API | No | Yes | High-quality European languages |
 | **LibreTranslate** | API | Yes/No | Optional | Self-hosted, privacy-focused |
 | **OpenAI-compatible** | LLM | Both | Yes | GPT-4, local LLMs with OpenAI API |
