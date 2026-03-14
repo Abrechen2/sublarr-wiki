@@ -2,7 +2,7 @@
 title: Wanted
 description: Automatic missing subtitle detection and search
 published: true
-date: 2026-03-14T19:00:48.624Z
+date: 2026-03-14T19:01:50.932Z
 tags: 
 editor: markdown
 dateCreated: 2026-03-14T18:05:06.256Z
