@@ -2,7 +2,7 @@
 title: Sublarr Wiki
 description: Documentation for Sublarr — self-hosted subtitle manager for anime & media
 published: true
-date: 2026-03-14T18:49:53.005Z
+date: 2026-03-14T18:59:42.049Z
 tags: 
 editor: markdown
 dateCreated: 2026-03-14T18:04:40.770Z
@@ -12,50 +12,50 @@ dateCreated: 2026-03-14T18:04:40.770Z
 
 Self-hosted subtitle manager for anime & media libraries. Finds the best subtitles, translates them locally with a custom LLM model, and keeps everything in sync with your *arr stack.
 
-> **Latest:** v0.28.0-beta — AI Glossary Builder
+> **Latest:** v0.29.0-beta — Web Player  <!-- Update at each release — source of truth: `backend/VERSION` -->
 
 ---
 
 ## Getting Started
 
-<div class="wiki-links">
-<a href="/getting-started/installation"><i class="mdi mdi-download wl-icon"></i><span class="wl-title">Installation</span><span class="wl-desc">Docker, Docker Compose, environment variables</span></a>
-<a href="/getting-started/quick-start"><i class="mdi mdi-lightning-bolt wl-icon"></i><span class="wl-title">Quick Start Guide</span><span class="wl-desc">Connect your *arr apps and find your first subtitles</span></a>
-<a href="/getting-started/environment-variables"><i class="mdi mdi-tune-vertical wl-icon"></i><span class="wl-title">Environment Variables</span><span class="wl-desc">All SUBLARR_* configuration options</span></a>
-<a href="/getting-started/upgrade-guide"><i class="mdi mdi-arrow-up-circle-outline wl-icon"></i><span class="wl-title">Upgrade Guide</span><span class="wl-desc">Upgrading between versions, migration notes</span></a>
-<a href="/getting-started/faq"><i class="mdi mdi-help-circle-outline wl-icon"></i><span class="wl-title">FAQ</span><span class="wl-desc">Frequently asked questions</span></a>
-</div>
+| | |
+|---|---|
+| [Installation](/getting-started/installation) | Docker, Docker Compose, environment variables |
+| [Quick Start Guide](/getting-started/quick-start) | Connect your *arr apps and find your first subtitles |
+| [Environment Variables](/getting-started/environment-variables) | All `SUBLARR_*` configuration options |
+| [Upgrade Guide](/getting-started/upgrade-guide) | Upgrading between versions, migration notes |
+| [FAQ](/getting-started/faq) | Frequently asked questions |
 
 ## User Guide
 
-<div class="wiki-links">
-<a href="/user-guide/library"><i class="mdi mdi-filmstrip-box-multiple wl-icon"></i><span class="wl-title">Library</span><span class="wl-desc">Browsing and managing your media library</span></a>
-<a href="/user-guide/wanted"><i class="mdi mdi-star-circle-outline wl-icon"></i><span class="wl-title">Wanted</span><span class="wl-desc">Automatic missing subtitle detection and search</span></a>
-<a href="/user-guide/activity"><i class="mdi mdi-chart-timeline-variant wl-icon"></i><span class="wl-title">Activity</span><span class="wl-desc">Translation jobs, download history</span></a>
-<a href="/user-guide/settings/general"><i class="mdi mdi-cog wl-icon"></i><span class="wl-title">Settings</span><span class="wl-desc">Full settings reference</span></a>
-<a href="/user-guide/language-profiles"><i class="mdi mdi-translate wl-icon"></i><span class="wl-title">Language Profiles</span><span class="wl-desc">Per-series language targeting</span></a>
-<a href="/user-guide/translation-llm"><i class="mdi mdi-robot wl-icon"></i><span class="wl-title">Translation &amp; LLM</span><span class="wl-desc">Ollama, custom anime model, translation pipeline</span></a>
-<a href="/user-guide/integrations"><i class="mdi mdi-link-variant wl-icon"></i><span class="wl-title">Integrations</span><span class="wl-desc">Sonarr, Radarr, Jellyfin, Emby</span></a>
-</div>
+| | |
+|---|---|
+| [Library](/user-guide/library) | Browsing and managing your media library |
+| [Wanted](/user-guide/wanted) | Automatic missing subtitle detection and search |
+| [Activity](/user-guide/activity) | Translation jobs, download history |
+| [Settings](/user-guide/settings/general) | Full settings reference |
+| [Language Profiles](/user-guide/language-profiles) | Per-series language targeting |
+| [Translation & LLM](/user-guide/translation-llm) | Ollama, custom anime model, translation pipeline |
+| [Integrations](/user-guide/integrations) | Sonarr, Radarr, Jellyfin, Emby |
 
 ## Troubleshooting
 
-<div class="wiki-links">
-<a href="/troubleshooting/general"><i class="mdi mdi-wrench-outline wl-icon"></i><span class="wl-title">General Troubleshooting</span><span class="wl-desc">Common issues and solutions</span></a>
-<a href="/troubleshooting/reverse-proxy"><i class="mdi mdi-server-network wl-icon"></i><span class="wl-title">Reverse Proxy Guide</span><span class="wl-desc">nginx, Caddy, NPM setup</span></a>
-<a href="/troubleshooting/performance-tuning"><i class="mdi mdi-speedometer wl-icon"></i><span class="wl-title">Performance Tuning</span><span class="wl-desc">Large libraries, translation throughput</span></a>
-</div>
+| | |
+|---|---|
+| [General Troubleshooting](/troubleshooting/general) | Common issues and solutions |
+| [Reverse Proxy Guide](/troubleshooting/reverse-proxy) | nginx, Caddy, NPM setup |
+| [Performance Tuning](/troubleshooting/performance-tuning) | Large libraries, translation throughput |
 
 ## Development
 
-<div class="wiki-links">
-<a href="/development/architecture"><i class="mdi mdi-sitemap wl-icon"></i><span class="wl-title">Architecture</span><span class="wl-desc">System design, component overview</span></a>
-<a href="/development/plugin-development"><i class="mdi mdi-puzzle-outline wl-icon"></i><span class="wl-title">Plugin Development</span><span class="wl-desc">Writing custom provider/hook plugins</span></a>
-<a href="/development/api-reference"><i class="mdi mdi-code-json wl-icon"></i><span class="wl-title">API Reference</span><span class="wl-desc">REST API endpoints</span></a>
-<a href="/development/database-schema"><i class="mdi mdi-table-large wl-icon"></i><span class="wl-title">Database Schema</span><span class="wl-desc">SQLite tables and relationships</span></a>
-<a href="/development/postgresql"><i class="mdi mdi-elephant wl-icon"></i><span class="wl-title">PostgreSQL Setup</span><span class="wl-desc">Switching to PostgreSQL</span></a>
-<a href="/development/contributing"><i class="mdi mdi-source-pull wl-icon"></i><span class="wl-title">Contributing</span><span class="wl-desc">Development workflow, PR guidelines</span></a>
-</div>
+| | |
+|---|---|
+| [Architecture](/development/architecture) | System design, component overview |
+| [Plugin Development](/development/plugin-development) | Writing custom provider/hook plugins |
+| [API Reference](/development/api-reference) | REST API endpoints |
+| [Database Schema](/development/database-schema) | SQLite tables and relationships |
+| [PostgreSQL Setup](/development/postgresql) | Switching to PostgreSQL |
+| [Contributing](/development/contributing) | Development workflow, PR guidelines |
 
 ---
 
