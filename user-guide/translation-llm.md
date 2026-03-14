@@ -2,13 +2,15 @@
 title: Translation & LLM
 description: Local LLM translation with Ollama — custom anime model, translation pipeline
 published: true
-date: 2026-03-14T19:03:27.909Z
-tags: 
+date: 2026-03-14T19:36:16.218Z
+tags: llm, translation
 editor: markdown
 dateCreated: 2026-03-14T18:05:04.509Z
 ---
 
 # Translation & LLM
+
+<div class="beta-notice"><span class="bn-icon mdi mdi-flask-outline"></span><div><strong>Beta Feature</strong> — LLM-based translation is functional but actively developed. Quality, performance, and configuration options will improve in future releases. For production use with strict quality requirements, consider using <a href="/user-guide/settings/translation">DeepL</a> as a fallback or primary backend.</div></div>
 
 Sublarr supports fully offline subtitle translation using [Ollama](https://ollama.com) and any OpenAI-compatible endpoint. No cloud APIs, no accounts required. This page explains the full translation pipeline, all supported backends, the custom anime model, and how to get the best results.
 
@@ -48,7 +50,9 @@ Every subtitle request goes through a three-tier pipeline before a translation b
 
 ## Supported Backends
 
-### Ollama (Recommended)
+### Ollama (Recommended) <span class="badge-beta">Beta</span>
+
+<div class="beta-notice"><span class="bn-icon mdi mdi-flask-outline"></span><div><strong>Beta</strong> — LLM translation via Ollama is the primary translation method in Sublarr but remains in active development. Translation accuracy depends heavily on the chosen model. Results may vary by language pair and content type.</div></div>
 
 Self-hosted LLM inference. Runs on your server with no external dependencies. Supports GPU acceleration for fast translation.
 
@@ -60,7 +64,7 @@ SUBLARR_OLLAMA_MODEL=qwen2.5:14b-instruct
 **Recommended models:**
 
 | Model | Size | Quality | Speed | Best For |
-|-------|------|---------|-------|---------|
+|-------|------|---------|-------|---------| 
 | `hf.co/Sublarr/anime-translator-v6-GGUF:Q4_K_M` | 7 GB | Excellent (anime) | Fast | Anime EN→DE |
 | `qwen2.5:14b-instruct` | ~9 GB | Very good | Medium | General subtitles |
 | `qwen2.5:7b-instruct` | ~5 GB | Good | Fast | Low-VRAM systems |
@@ -76,33 +80,26 @@ Any server that implements the OpenAI Chat Completions API works as a backend. T
 - **LM Studio** (desktop LLM runner)
 - **Groq** (cloud, very fast inference)
 
-Configure in **Settings → Translation Backends → OpenAI-compatible**:
-
 ```env
-# OpenAI
 OPENAI_API_KEY=sk-...
 OPENAI_BASE_URL=https://api.openai.com/v1
-
-# Local vLLM / LM Studio
-OPENAI_BASE_URL=http://localhost:8000/v1
-OPENAI_API_KEY=local
 ```
 
 ### DeepL
 
-High-quality translation for European languages. Requires a DeepL API key (free tier available at [deepl.com](https://www.deepl.com/pro-api)).
-
-Best used as a fallback backend or primary for languages where LLM translation quality lags (Polish, Romanian, Portuguese, etc.).
+High-quality translation for European languages. Requires a DeepL API key (free tier available). Best used as a fallback backend or primary for languages where LLM translation quality lags (Polish, Romanian, Portuguese, etc.).
 
 ### LibreTranslate
 
-Open-source, self-hostable translation API. Privacy-focused alternative to cloud services. Quality is lower than LLM or DeepL for most language pairs but runs fully offline.
+Open-source, self-hostable translation API. Quality is lower than LLM or DeepL for most language pairs but runs fully offline.
 
 ### Google Cloud Translation
 
-Cloud-based, broad language coverage. Requires a Google Cloud project and API key with the Cloud Translation API enabled.
+Cloud-based, broad language coverage. Requires a Google Cloud project and API key.
 
-## Custom Anime Model
+## Custom Anime Model <span class="badge-beta">Beta</span>
+
+<div class="beta-notice"><span class="bn-icon mdi mdi-flask-outline"></span><div><strong>Beta</strong> — The custom anime translation model is an experimental fine-tune. While it outperforms general-purpose models on anime EN→DE, it has not been validated across all anime genres and styles. BLEU-1 score of 0.281 indicates good but not perfect translation quality. Use the <strong>Anime prompt preset</strong> and build a <strong>Glossary</strong> to improve consistency.</div></div>
 
 Sublarr ships a fine-tuned anime subtitle translation model — the first publicly available GGUF model trained specifically on anime subtitles.
 
@@ -132,7 +129,7 @@ The model was trained exclusively on anime subtitle dialogue, making it signific
 ollama pull hf.co/Sublarr/anime-translator-v6-GGUF:Q4_K_M
 ```
 
-This requires Ollama 0.3+ and approximately 7 GB of disk space. The model runs on consumer GPUs (8 GB VRAM is sufficient for Q4_K_M) and also works on CPU, though CPU inference is significantly slower.
+Requires Ollama 0.3+ and approximately 7 GB of disk space. Runs on consumer GPUs (8 GB VRAM sufficient for Q4_K_M).
 
 ### Activating the Model
 
@@ -143,8 +140,6 @@ SUBLARR_OLLAMA_MODEL=hf.co/Sublarr/anime-translator-v6-GGUF:Q4_K_M
 Or set it in **Settings → Translation Backends → Ollama → Model name** in the UI.
 
 ## How to Switch Models
-
-To switch the active translation model:
 
 1. Pull the new model on your Ollama server:
    ```bash
@@ -175,11 +170,9 @@ Ollama automatically uses your GPU when available. For best performance:
 
 - Use a model that fits entirely in VRAM (avoids slow CPU offloading)
 - Q4_K_M quantisation offers the best quality-to-size trade-off for 8 GB VRAM GPUs
-- Set `SUBLARR_TRANSLATION_MAX_WORKERS=1` when running a large model on a shared GPU to avoid OOM errors from concurrent requests
+- Set `SUBLARR_TRANSLATION_MAX_WORKERS=1` when running a large model on a shared GPU to avoid OOM errors
 
 ### Batch Size Tuning
-
-The `SUBLARR_BATCH_SIZE` setting controls how many subtitle cues are sent per LLM call:
 
 | Batch size | Effect |
 |-----------|--------|
@@ -195,15 +188,6 @@ If you see garbled or cut-off translations, reduce the batch size.
 
 - Default: `4` — suitable for a dedicated server
 - Set to `1`–`2` on memory-constrained systems or when running a large model
-- With Redis + RQ workers, scale workers via `docker compose ... --scale rq-worker=N` instead
-
-### Request Timeout
-
-`SUBLARR_REQUEST_TIMEOUT` (default: `90` seconds) controls how long Sublarr waits for a single LLM response. Increase this for large models or CPU inference:
-
-```env
-SUBLARR_REQUEST_TIMEOUT=180
-```
 
 ## Prompts and Prompt Presets
 
@@ -211,8 +195,6 @@ Sublarr generates translation prompts automatically based on the source and targ
 
 - **Prompt Presets** — predefined prompt styles (Anime, General, Documentary) selectable per Language Profile
 - **Custom Prompt Template** — fully replace the auto-generated prompt via `SUBLARR_PROMPT_TEMPLATE`
-
-The auto-generated prompt includes context like: target language name, instruction to preserve subtitle formatting, and instruction to translate only dialogue (not ASS style tags).
 
 ## Glossary Support
 
@@ -222,8 +204,6 @@ For series with recurring proper nouns (character names, place names, special te
 - Click **Build Glossary** to extract terms from existing subtitles automatically
 - Review and approve suggested terms
 - Approved terms are injected into the translation prompt for that series
-
-This significantly improves consistency of character names and series-specific vocabulary across episodes.
 
 ## Troubleshooting
 
@@ -237,7 +217,6 @@ This significantly improves consistency of character names and series-specific v
 **Translation is very slow:**
 - Verify Ollama is using GPU (check `ollama ps` — it should show VRAM usage)
 - Reduce batch size if the model is repeatedly timing out
-- Reduce max workers to avoid OOM on shared GPU
 - Consider switching to a smaller quantised model (Q4_K_M is the recommended quality tier)
 
 **Ollama connection fails:**
@@ -245,8 +224,3 @@ This significantly improves consistency of character names and series-specific v
 - On Docker Compose: use the service name (`http://ollama:11434`), not `localhost`
 - Check that the model is pulled: `ollama list`
 - Check Ollama container logs: `docker logs ollama`
-
-**Model not found error:**
-- Pull the model first: `ollama pull <model-name>`
-- Verify the exact model name matches what Ollama reports in `ollama list`
-- HuggingFace GGUF models use the full `hf.co/<org>/<model>:<tag>` format
