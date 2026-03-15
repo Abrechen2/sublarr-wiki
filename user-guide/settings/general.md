@@ -19,6 +19,8 @@ dateCreated: 2026-03-14T18:04:54.250Z
 
 # Settings — General
 
+![Settings — General](/img/screen-settings-general.png)
+
 This page covers the UI-configurable settings in **Settings → General**. For the full environment variable reference, see [Configuration Reference](/getting-started/environment-variables).
 
 ## Host & Port

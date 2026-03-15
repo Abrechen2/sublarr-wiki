@@ -10,6 +10,8 @@ dateCreated: 2026-03-14T18:04:52.627Z
 
 # Library
 
+![Library — Series Grid](/img/screen-library.png)
+
 The Library view shows all series and movies that Sublarr is aware of, sourced from your connected Sonarr, Radarr, Jellyfin, Emby, or standalone watched-folder integrations. It is your central dashboard for understanding subtitle coverage and taking manual action on any item.
 
 ## Series / Movie Grid

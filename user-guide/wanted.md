@@ -10,6 +10,8 @@ dateCreated: 2026-03-14T18:05:06.256Z
 
 # Wanted
 
+![Wanted — Missing Subtitles](/img/screen-wanted.png)
+
 The Wanted list tracks all episodes and movies in your library that are missing subtitles matching your [Language Profile](/user-guide/settings/profiles). Sublarr automatically populates this list during scheduled scans and immediately via webhook events from Sonarr and Radarr.
 
 ## What the Wanted List Shows

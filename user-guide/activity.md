@@ -10,6 +10,8 @@ dateCreated: 2026-03-14T18:04:47.601Z
 
 # Activity
 
+![Activity — Translation Jobs & History](/img/screen-activity.png)
+
 The Activity section gives you a real-time and historical view of all background operations: subtitle downloads, translation jobs, webhook events, and scheduled scanner runs. It is split into two main tabs — **Translation Jobs** and **Download History** — plus a **Tasks** page for the scheduler.
 
 ## Translation Jobs Tab
