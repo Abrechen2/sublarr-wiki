@@ -1,3 +1,10 @@
+---
+title: Wiki Expansion Design Spec
+description: Internal spec — not a public wiki page
+published: false
+date: 2026-03-16
+---
+
 # Wiki Expansion Design Spec
 **Date:** 2026-03-15
 **Status:** Draft

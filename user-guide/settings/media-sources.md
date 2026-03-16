@@ -2,7 +2,7 @@
 title: Settings — Media Sources
 description: Standalone mode, watched folders, and metadata API keys for library scanning without Sonarr/Radarr
 published: true
-date: 2026-03-15
+date: 2026-03-16
 tags: settings
 editor: markdown
 dateCreated: 2026-03-15
@@ -29,10 +29,42 @@ Media Sources configures how Sublarr discovers your media library. By default, S
 |---------|---------|-------------|
 | **Enable Standalone Mode** | `off` | Scan the media directory directly instead of using Sonarr/Radarr. Requires `SUBLARR_MEDIA_PATH` to be set. |
 
-When standalone mode is enabled, Sublarr scans the configured media path for video files and populates the library from the filesystem. No Sonarr or Radarr connection is needed. Metadata (series title, episode number, year) is inferred from filenames and resolved via TMDB/TVDB.
+When standalone mode is enabled, Sublarr scans the configured media path for video files and populates the library from the filesystem. No Sonarr or Radarr connection is needed. Metadata (series title, episode number, year) is inferred from filenames and resolved via TMDB/TVDB — or read directly from `.nfo` sidecar files when present (see **NFO Metadata** below).
 
 > [!NOTE]
 > Standalone mode and Sonarr/Radarr mode can be used simultaneously. Series found via standalone scanning appear in the library alongside \*arr-managed content.
+
+### Advanced
+
+| Setting | Default | Description |
+|---------|---------|-------------|
+| **Skip Extra Files** | `on` | Exclude trailers, featurettes, samples, and other non-episode extras from subtitle discovery. Follows Jellyfin/Kodi naming convention (`-trailer`, `-featurette`, `-behindthescenes`, `-deleted`, `-interview`, `-scene`, `-short`, `-sample`, `-theme`). Configurable via `standalone_skip_extras` in Settings → Media Sources (advanced). |
+
+---
+
+## NFO Metadata
+
+When scanning in standalone mode, Sublarr reads `.nfo` sidecar files (placed next to the video file or inside the season folder) to resolve series/movie title, year, TVDB/TMDB ID, and episode metadata — without making any external API call.
+
+**Lookup priority:**
+1. `.nfo` sidecar file (series root or `Season XX/` subfolder)
+2. TMDB/TVDB API lookup
+3. Filename parsing fallback
+
+**Supported `.nfo` fields:**
+
+| Field | Maps to |
+|-------|---------|
+| `<title>` | Series / movie title |
+| `<year>` | Release year |
+| `<tvdbid>` | TVDB ID |
+| `<tmdbid>` | TMDB ID |
+| `<episode>` / `<season>` | Episode + season number |
+
+Sublarr also reads `poster.jpg` from the series root or season subfolder for library artwork.
+
+> [!TIP]
+> If your media manager (Kodi, Jellyfin, Infuse) already generates `.nfo` files, Sublarr will use them automatically — no extra configuration needed.
 
 ## Metadata API Keys
 

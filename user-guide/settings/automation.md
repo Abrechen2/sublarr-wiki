@@ -2,7 +2,7 @@
 title: Settings — Automation
 description: Scheduled tasks, upgrade rules, auto-cleanup, and subtitle trash management
 published: true
-date: 2026-03-15
+date: 2026-03-16
 tags: settings
 editor: markdown
 dateCreated: 2026-03-15
@@ -122,3 +122,12 @@ At the top of the panel, a **Purge All Expired** button removes all files that h
 
 > [!NOTE]
 > The trash only holds **subtitle files** (`.srt`, `.ass`, `.ssa`, `.vtt`). Database records for deleted subtitles are also removed from the library when the file is purged. Restoring a file from trash does not restore the database record — Sublarr will re-detect the file on the next library scan.
+
+---
+
+## Advanced
+
+| Setting | Default | Description |
+|---------|---------|-------------|
+| **Streaming Enabled** | `true` | Enable the HTTP video streaming endpoint (`GET /api/v1/media/stream`). Serves video files with HTTP 206 range-request support for the built-in Web Player. Disable to block direct media access via the API. Configurable via `streaming_enabled`. |
+| **Auto NFO Export** | `false` | Automatically write an XML `.nfo` sidecar alongside every downloaded or translated subtitle. Contains provider, language, score, translation backend, BLEU score, and Sublarr version. Expert feature. |

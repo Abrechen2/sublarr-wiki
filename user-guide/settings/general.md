@@ -2,7 +2,7 @@
 title: Settings — General
 description: General application settings — host, security, authentication, UI, backups
 published: true
-date: 2026-03-14T19:27:33.844Z
+date: 2026-03-16
 tags: settings
 editor: markdown
 dateCreated: 2026-03-14T18:04:54.250Z
@@ -123,6 +123,47 @@ Auto-update is not supported — pull the new Docker image manually:
 docker compose pull sublarr
 docker compose up -d sublarr
 ```
+
+## Logging
+
+Sublarr writes structured logs to `/config/log/sublarr.log` inside the container.
+
+| Setting | Default | Env Variable | Description |
+|---------|---------|-------------|-------------|
+| Log Level | `INFO` | `SUBLARR_LOG_LEVEL` | Verbosity: `DEBUG`, `INFO`, `WARNING`, `ERROR` |
+| Max log size | `10 MB` | — | Log file rotated when it reaches this size |
+| Backup count | `3` | — | Number of rotated log files kept (`.log.1`, `.log.2`, `.log.3`) |
+
+### Viewing Logs
+
+**In the UI:** Go to **Settings → General → Logs** to view the last 200 log lines. Use the level filter to show only `WARNING` or `ERROR` entries.
+
+**Via API:**
+```http
+GET /api/v1/logs?lines=500&level=ERROR
+```
+
+### Downloading Logs
+
+Download the full log file for offline analysis or to attach to a support request:
+
+```http
+GET /api/v1/logs/download
+```
+
+Returns `sublarr.log` as a text file attachment.
+
+### Log Rotation
+
+```http
+GET  /api/v1/logs/rotation               # get current config
+PUT  /api/v1/logs/rotation               # update: {"max_size_mb": 10, "backup_count": 3}
+```
+
+> [!TIP]
+> Change the log level via **Settings → General → Log Level** and save — takes effect immediately without a container restart.
+
+---
 
 ## Analytics
 
