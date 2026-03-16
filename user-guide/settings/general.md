@@ -30,6 +30,7 @@ This page covers the UI-configurable settings in **Settings → General**. For t
 | Port | `5765` | `SUBLARR_PORT` | HTTP port — change if the port is already in use on your host |
 | URL Base | *(empty)* | — | Set if running behind a reverse proxy at a subpath (e.g. `/sublarr`). Do not include a trailing slash. |
 | Log Level | `INFO` | `SUBLARR_LOG_LEVEL` | Verbosity: `DEBUG`, `INFO`, `WARNING`, `ERROR` |
+| Database Path | `/config/sublarr.db` | `SUBLARR_DB_PATH` | SQLite database file location. For PostgreSQL, set `SUBLARR_DATABASE_URL` instead. |
 
 > **Note:** The bind address defaults to `0.0.0.0` (all interfaces). On a multi-NIC server, you can restrict this via the `SUBLARR_CORS_ORIGINS` environment variable if needed.
 
@@ -133,6 +134,8 @@ Sublarr writes structured logs to `/config/log/sublarr.log` inside the container
 | Log Level | `INFO` | `SUBLARR_LOG_LEVEL` | Verbosity: `DEBUG`, `INFO`, `WARNING`, `ERROR` |
 | Max log size | `10 MB` | — | Log file rotated when it reaches this size |
 | Backup count | `3` | — | Number of rotated log files kept (`.log.1`, `.log.2`, `.log.3`) |
+| Log File | `/config/sublarr.log` | `SUBLARR_LOG_FILE` | Path to the log file inside the container |
+| Log Format | `text` | `SUBLARR_LOG_FORMAT` | Output format: `text` (human-readable) or `json` (structured JSON for tools like Loki/Grafana) |
 
 ### Viewing Logs
 
@@ -168,3 +171,49 @@ PUT  /api/v1/logs/rotation               # update: {"max_size_mb": 10, "backup_c
 ## Analytics
 
 Sublarr does not collect analytics or telemetry. No usage data leaves your server.
+
+---
+
+## Advanced
+
+> [!NOTE]
+> These settings are for advanced deployments. The default SQLite + in-process configuration is sufficient for most homelab use cases.
+
+### Scan / Media Processing
+
+| Setting | Default | Env Variable | Description |
+|---------|---------|-------------|-------------|
+| ffmpeg Timeout | `120` seconds | `SUBLARR_FFMPEG_TIMEOUT` | Seconds before ffmpeg subtitle-extraction is killed |
+| Metadata Engine | `auto` | `SUBLARR_SCAN_METADATA_ENGINE` | Metadata reader: `ffprobe`, `mediainfo`, or `auto` (tries ffprobe first, falls back to mediainfo) |
+| Metadata Workers | `4` | `SUBLARR_SCAN_METADATA_MAX_WORKERS` | Parallel workers for batch metadata scans |
+
+### Plugin System
+
+| Setting | Default | Env Variable | Description |
+|---------|---------|-------------|-------------|
+| Plugins Directory | `/config/plugins` | `SUBLARR_PLUGINS_DIR` | Directory scanned for installed plugins |
+| Plugin Hot Reload | `false` | `SUBLARR_PLUGIN_HOT_RELOAD` | Enable watchdog file watcher for the plugins directory. When enabled, plugins are reloaded automatically when files change — useful during plugin development. |
+
+### Database (PostgreSQL / Connection Pool)
+
+By default, Sublarr uses SQLite at `SUBLARR_DB_PATH`. To switch to PostgreSQL, set `SUBLARR_DATABASE_URL` and leave `SUBLARR_DB_PATH` empty.
+
+> [!NOTE]
+> PostgreSQL support requires the `psycopg2` package in the Docker image. The default SQLite database is sufficient for most single-user homelab setups.
+
+| Setting | Default | Env Variable | Description |
+|---------|---------|-------------|-------------|
+| Database URL | *(empty)* | `SUBLARR_DATABASE_URL` | Empty = SQLite. Set to `postgresql://user:pass@host/db` for PostgreSQL. |
+| Pool Size | `5` | `SUBLARR_DB_POOL_SIZE` | SQLAlchemy `pool_size` (ignored for SQLite) |
+| Pool Max Overflow | `10` | `SUBLARR_DB_POOL_MAX_OVERFLOW` | Maximum overflow connections above `pool_size` |
+| Pool Recycle | `3600` seconds | `SUBLARR_DB_POOL_RECYCLE` | Recycle connections after this many seconds to avoid stale connection errors |
+
+### Redis (Job Queue / Cache)
+
+Redis is optional. Without Redis, Sublarr uses an in-process queue and in-memory cache. Redis is recommended for multi-worker deployments or high-volume setups.
+
+| Setting | Default | Env Variable | Description |
+|---------|---------|-------------|-------------|
+| Redis URL | *(empty)* | `SUBLARR_REDIS_URL` | Empty = no Redis. Set to `redis://host:6379/0` to enable. |
+| Redis Cache Enabled | *(auto)* | `SUBLARR_REDIS_CACHE_ENABLED` | Enable Redis-backed response cache. Automatically enabled when `SUBLARR_REDIS_URL` is set. |
+| Redis Queue Enabled | *(auto)* | `SUBLARR_REDIS_QUEUE_ENABLED` | Enable Redis-backed job queue. Automatically enabled when `SUBLARR_REDIS_URL` is set. |

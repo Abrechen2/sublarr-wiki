@@ -36,9 +36,12 @@ When standalone mode is enabled, Sublarr scans the configured media path for vid
 
 ### Advanced
 
-| Setting | Default | Description |
-|---------|---------|-------------|
-| **Skip Extra Files** | `on` | Exclude trailers, featurettes, samples, and other non-episode extras from subtitle discovery. Follows Jellyfin/Kodi naming convention (`-trailer`, `-featurette`, `-behindthescenes`, `-deleted`, `-interview`, `-scene`, `-short`, `-sample`, `-theme`). Configurable via `standalone_skip_extras` in Settings → Media Sources (advanced). |
+| Setting | Default | Env Variable | Description |
+|---------|---------|-------------|-------------|
+| **Skip Extra Files** | `on` | — | Exclude trailers, featurettes, samples, and other non-episode extras from subtitle discovery. Follows Jellyfin/Kodi naming convention (`-trailer`, `-featurette`, `-behindthescenes`, `-deleted`, `-interview`, `-scene`, `-short`, `-sample`, `-theme`). Configurable via `standalone_skip_extras` in Settings → Media Sources (advanced). |
+| Scan Interval | `6` hours | `SUBLARR_STANDALONE_SCAN_INTERVAL_HOURS` | How often to re-scan the media directory. `0` disables periodic scanning. |
+| Debounce | `30` seconds | `SUBLARR_STANDALONE_DEBOUNCE_SECONDS` | Wait this long after a new file is detected before processing it. Prevents partial-file processing during large transfers. |
+| Metadata Cache TTL | `30` days | `SUBLARR_METADATA_CACHE_TTL_DAYS` | How long to cache TMDB/TVDB metadata lookups before refreshing. |
 
 ---
 

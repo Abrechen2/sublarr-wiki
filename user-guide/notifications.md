@@ -95,3 +95,44 @@ Default templates are used if a template field is left blank. Custom templates a
 
 > [!TIP]
 > For Telegram notifications, keep templates short — Telegram truncates messages beyond ~4096 characters. Use `{series_title}` and `{episode}` as the minimum to identify what triggered the event.
+
+## Environment Variables
+
+All notification settings can also be configured via Docker environment variables. This is useful for initial setup when the UI is not yet accessible on first run.
+
+| Variable | Default | Description |
+|----------|---------|-------------|
+| `SUBLARR_NOTIFICATION_URLS_JSON` | *(empty)* | JSON array of Apprise URLs, or newline-separated URL list |
+| `SUBLARR_NOTIFY_ON_DOWNLOAD` | `true` | Notify when a subtitle is downloaded |
+| `SUBLARR_NOTIFY_ON_UPGRADE` | `true` | Notify when a subtitle is upgraded |
+| `SUBLARR_NOTIFY_ON_BATCH_COMPLETE` | `true` | Notify when a batch search/translate job completes |
+| `SUBLARR_NOTIFY_ON_ERROR` | `true` | Notify on backend errors or provider failures |
+| `SUBLARR_NOTIFY_MANUAL_ACTIONS` | `false` | Notify on manual downloads and manual deletes triggered from the UI |
+
+`SUBLARR_NOTIFICATION_URLS_JSON` accepts either a JSON array or a plain newline-separated list of Apprise URLs. Setting it via Docker Compose:
+
+```yaml
+environment:
+  SUBLARR_NOTIFICATION_URLS_JSON: '["tgram://bottoken/chatid"]'
+```
+
+Values set via environment variables are applied at startup and can be overridden from the UI afterwards. If a value is changed in the UI, the UI value takes precedence over the environment variable on subsequent saves.
+
+## Anti-Captcha
+
+Some subtitle providers use CAPTCHAs to rate-limit scrapers. Sublarr supports automatic CAPTCHA solving via third-party services.
+
+| Setting | Default | Env Variable | Description |
+|---------|---------|-------------|-------------|
+| Provider | *(empty)* | `SUBLARR_ANTI_CAPTCHA_PROVIDER` | CAPTCHA solving service: `anticaptcha`, `capmonster`, or empty to disable |
+| API Key | *(empty)* | `SUBLARR_ANTI_CAPTCHA_API_KEY` | API key for the selected CAPTCHA service |
+
+Supported services:
+
+- [Anti-Captcha](https://anti-captcha.com) — set provider to `anticaptcha`
+- [CapMonster](https://capmonster.cloud) — set provider to `capmonster`
+
+To configure, go to **Settings → General → Anti-Captcha**, select a provider, and enter your API key.
+
+> [!NOTE]
+> Anti-captcha is only needed for scraper-based providers that occasionally present CAPTCHAs (e.g. Addic7ed via Gestdown). API-based providers (OpenSubtitles, Jimaku, SubDL) do not use CAPTCHAs.

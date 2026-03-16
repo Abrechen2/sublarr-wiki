@@ -67,6 +67,15 @@ SUBLARR_RADARR_API_KEY=your_api_key_here
 
 Webhook URL: `http://sublarr:5765/api/v1/webhook/radarr`
 
+### Multi-Instance Setup
+
+```env
+SUBLARR_RADARR_INSTANCES_JSON=[
+  {"name": "Anime Movies", "url": "http://radarr-anime:7878", "api_key": "abc123"},
+  {"name": "Regular", "url": "http://radarr:7878", "api_key": "xyz789"}
+]
+```
+
 ## Jellyfin
 
 Sublarr triggers a library refresh after each subtitle download.
@@ -89,3 +98,23 @@ SUBLARR_MEDIA_SERVERS_JSON=[
 ```
 
 Kodi requires JSON-RPC enabled: **Settings → Services → Control → Allow programs on other systems to control Kodi**.
+
+## AniDB
+
+Sublarr uses AniDB IDs to improve search accuracy on anime-specialized providers (AnimeTosho, Jimaku, Kitsunekko). The mapping from TVDB ID → AniDB ID is cached locally. When `anidb_enabled` is true, Sublarr resolves the AniDB ID for each anime series before searching providers.
+
+```env
+SUBLARR_ANIDB_ENABLED=true
+SUBLARR_ANIDB_CACHE_TTL_DAYS=30
+SUBLARR_ANIDB_CUSTOM_FIELD_NAME=anidb_id
+SUBLARR_ANIDB_FALLBACK_TO_MAPPING=true
+```
+
+`SUBLARR_ANIDB_CUSTOM_FIELD_NAME` — if you store the AniDB ID directly in Sonarr as a custom format or tag, configure the field name here. Sublarr will read it from Sonarr's API to skip the TVDB→AniDB lookup.
+
+| Setting | Default | Env Variable | Description |
+|---------|---------|-------------|-------------|
+| AniDB Enabled | `true` | `SUBLARR_ANIDB_ENABLED` | Resolve AniDB IDs for anime series to improve provider search accuracy |
+| Cache TTL | `30` days | `SUBLARR_ANIDB_CACHE_TTL_DAYS` | How long to cache TVDB→AniDB mappings before refreshing |
+| Custom Field Name | `anidb_id` | `SUBLARR_ANIDB_CUSTOM_FIELD_NAME` | Sonarr custom field name containing the AniDB ID (avoids external lookup) |
+| Fallback to Mapping | `true` | `SUBLARR_ANIDB_FALLBACK_TO_MAPPING` | Use the cached mapping file as fallback when the API is unavailable |

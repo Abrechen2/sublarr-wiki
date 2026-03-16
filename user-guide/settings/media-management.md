@@ -78,15 +78,53 @@ ASS subtitles receive a **+50 scoring bonus** over SRT.
 
 ## Forced Subtitle Handling
 
+Forced subtitles are intended only for foreign-language dialogue in an otherwise same-language film (e.g. the Elvish scenes in a full-English movie). `SUBLARR_FORCED_PREFERENCE` controls how they are treated in search results.
+
+```
+forced_preference: str = "include"  # include | prefer | exclude | only
+```
+
 | Option | Value | Behavior |
 |--------|-------|---------|
 | Disabled | `disabled` | Forced tracks ignored |
 | Separate | `separate` | Saved as `.forced.{lang}.ass` |
 | Auto | `auto` | Detected from stream metadata |
 
+| Setting | Default | Env Variable | Description |
+|---------|---------|-------------|-------------|
+| Forced Preference | `include` | `SUBLARR_FORCED_PREFERENCE` | How forced subtitles are treated in search results: `include`, `prefer`, `exclude`, `only` |
+
+**Preference values:**
+
+| Value | Effect |
+|-------|--------|
+| `include` | Forced subtitles are included in search results and scored normally |
+| `prefer` | Forced subtitles receive a score bonus (+30) |
+| `exclude` | Forced subtitles are filtered out of search results |
+| `only` | Only forced subtitles are returned |
+
 ## Hearing Impaired Removal
 
-`SUBLARR_HI_REMOVAL_ENABLED` (default: `false`) — strips `[DOOR SLAMS]` style annotations on download.
+Hearing-impaired (HI) subtitles include on-screen annotations such as `[DOOR SLAMS]` or `[TENSE MUSIC]` for viewers who cannot hear the audio. Two settings control how Sublarr handles them.
+
+```
+hi_removal_enabled: bool = False
+hi_preference: str = "include"  # include | prefer | exclude | only
+```
+
+| Setting | Default | Env Variable | Description |
+|---------|---------|-------------|-------------|
+| HI Removal | `false` | `SUBLARR_HI_REMOVAL_ENABLED` | Strip `[DOOR SLAMS]` style annotations from subtitles on download |
+| HI Preference | `include` | `SUBLARR_HI_PREFERENCE` | How HI subtitles are treated in search results: `include`, `prefer`, `exclude`, `only` |
+
+**Preference values:**
+
+| Value | Effect |
+|-------|--------|
+| `include` | HI subtitles are included in search results and scored normally (default) |
+| `prefer` | HI subtitles receive a score bonus (+30) |
+| `exclude` | HI subtitles are filtered out of search results |
+| `only` | Only HI subtitles are returned |
 
 ## Subtitle Trash
 
@@ -96,6 +134,20 @@ Instead of permanently deleting files, Sublarr moves them to a `.trash` subdirec
 
 ## Stream Removal (Remux)
 
-Removes embedded subtitle streams from MKV files via mkvmerge or ffmpeg.
+Stream Removal uses mkvmerge or ffmpeg to remux MKV files, removing embedded subtitle streams and optionally audio streams. Before remuxing, Sublarr creates a backup copy in `remux_trash_dir` so the original file can be recovered if something goes wrong.
 
-`SUBLARR_REMUX_USE_REFLINK=true` — use copy-on-write reflinks on Btrfs/XFS for zero-cost backups.
+```
+remux_trash_dir: str = ".sublarr"        # Relative (to media_path) or absolute path for backup trash
+remux_backup_retention_days: int = 7     # 0 = keep forever
+remux_arr_pause_enabled: bool = True     # Pause Sonarr/Radarr during remux
+remux_use_reflink: bool = True           # Use copy-on-write reflinks on Btrfs/XFS for zero-cost backups
+```
+
+| Setting | Default | Env Variable | Description |
+|---------|---------|-------------|-------------|
+| Trash directory | `.sublarr` | `SUBLARR_REMUX_TRASH_DIR` | Relative (to `media_path`) or absolute path where pre-remux backups are stored |
+| Backup retention | `7` days | `SUBLARR_REMUX_BACKUP_RETENTION_DAYS` | How long backup copies are kept; `0` keeps them forever |
+| Pause arr on remux | `true` | `SUBLARR_REMUX_ARR_PAUSE_ENABLED` | Pause Sonarr/Radarr monitoring during remux to prevent them from detecting the file as missing or changed mid-operation |
+| Use reflink | `true` | `SUBLARR_REMUX_USE_REFLINK` | Use copy-on-write reflinks on Btrfs/XFS for zero-cost backups (falls back to a regular copy on unsupported filesystems) |
+
+See [Stream Removal](/user-guide/stream-removal) for full documentation including provider configuration and per-series overrides.
