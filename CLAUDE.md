@@ -1,6 +1,6 @@
 # SublarrWiki — Claude Code Instructions
 
-Git-synced content mirror from Wiki.js. **Do NOT edit files directly in this repo.** Edit pages in the Wiki.js admin — changes sync automatically every 5 minutes.
+Git-synced content mirror from Wiki.js. Wiki.js syncs FROM this Git repo every 5 minutes — **editing `.md` files directly here IS the correct way to update wiki content.** Commit and push to `main`; Wiki.js picks up the changes automatically.
 
 ## Stack
 
@@ -27,12 +27,18 @@ en/                           # Primary English wiki
 
 ## Editing Workflow
 
-1. Open Wiki.js admin at `https://wiki.sublarr.de/a` (secured with 403 for non-admins)
-2. Edit or create pages in the web UI
-3. Changes auto-sync to this Git repo within 5 minutes
-4. Review changes via `git log` or `git diff`
+**Preferred (for Claude):** Edit `.md` files directly, commit, push to `main`. Wiki.js picks up changes within 5 minutes.
 
-**Never:** Edit `.md` files directly in this repo — they will be overwritten on next sync.
+**Alternative (manual):** Open Wiki.js admin at `https://wiki.sublarr.de/a` and edit in the web UI — changes sync back to this repo automatically.
+
+## Release Workflow (REQUIRED at every version bump)
+
+At every Sublarr release, update these wiki files:
+
+1. **`en/home.md`** — version badge line (e.g. `> **Latest:** v0.33.0-beta — Short description`)
+2. **New feature pages** — add/update pages in `en/user-guide/` for any new features
+3. **Settings docs** — update `en/user-guide/settings/` if new config fields were added (run `python wiki_audit_settings.py` to find gaps)
+4. Commit all changes and push to `main`
 
 ## Security Findings (FINDINGS.md)
 
