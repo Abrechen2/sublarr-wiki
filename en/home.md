@@ -9,7 +9,7 @@ date: 2026-03-16
 
 Self-hosted subtitle manager for anime & media libraries. Finds the best subtitles, translates them locally with a custom LLM model, and keeps everything in sync with your *arr stack.
 
-> **Latest:** v0.30.0-beta — NFO Metadata & Standalone Extras Filter  <!-- Update at each release — source of truth: `backend/VERSION` -->
+> **Latest:** v0.33.0-beta — 6 New Providers, EmbeddedSubtitles, Subtitle Processing Pipeline  <!-- Update at each release — source of truth: `backend/VERSION` -->
 
 ---
 
