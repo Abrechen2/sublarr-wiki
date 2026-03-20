@@ -34,7 +34,7 @@ Sublarr uses a modular provider system to search and download subtitles from mul
 
 ## Existing Providers
 
-Sublarr includes 11 built-in providers, each with different strengths. The first four are the original providers from v1.0.0-beta; the remaining seven were added in v0.9.0-beta via the plugin system.
+Sublarr includes 18 built-in providers. *(Updated v0.33.0-beta)*
 
 ### 1. AnimeTosho
 
@@ -117,6 +117,57 @@ Portuguese subtitles. Requires login — configure via Settings UI.
 ### 11. Whisper-Subgen (Deprecated)
 
 Deprecated in v0.9.0-beta. Use Settings → Whisper instead.
+
+---
+
+*The following providers were added in v0.33.0-beta:*
+
+### 12. Subf2m
+
+**Best for**: Broad multi-language coverage (60+ languages)
+
+No API key needed. Scrapes Subf2m.co.
+
+### 13. Subsource
+
+**Best for**: Multi-language subtitles for movies and TV
+
+No API key needed.
+
+### 14. YIFY Subtitles
+
+**Best for**: Movie subtitles (movies only — no TV series support)
+
+Uses IMDB IDs via YIFY JSON API. No API key needed.
+
+### 15. Zimuku
+
+**Best for**: Chinese subtitles (simplified & traditional)
+
+No API key needed. Scrapes Zimuku.net.
+
+### 16. BetaSeries
+
+**Best for**: French subtitles for TV series
+
+**Configuration**
+```env
+SUBLARR_BETASERIES_API_KEY=your_api_key_here
+```
+
+Get API key at https://www.betaseries.com/api/.
+
+### 17. Titlovi
+
+**Best for**: Balkan language subtitles (Croatian, Serbian, Bosnian, Slovenian, Macedonian)
+
+No API key needed.
+
+### 18. EmbeddedSubtitles *(v0.33.0-beta)*
+
+**Best for**: Extracting subtitles already embedded in your media files
+
+Reads embedded subtitle tracks directly from video files in your library. Results are treated as regular search results and scored/ranked alongside external providers. No external API needed — requires `ffprobe` in the container (included by default).
 
 ## Plugin Development
 
@@ -203,7 +254,7 @@ Each provider can have a manual score modifier (-100 to +100) set in Settings. U
 | **Preferred group** match | +`bonus` points (default: +20) |
 | **Excluded group** match | −999 points (effectively excluded) |
 
-Configure via **Series Detail → Fansub Preferences**.
+Global release-group settings are configured in **Settings → Scoring → Release Group Filter**. Per-series overrides are set via the **Fansub button** in the series detail toolbar (v0.33.0+, replaces the old inline card).
 
 ### Final Score Formula
 
