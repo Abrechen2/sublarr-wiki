@@ -1,0 +1,8 @@
+# Internal planning/spec files — NOT synced to Wiki.js
+.superpowers/
+
+# Environment secrets
+.env
+
+# Local Claude Code overrides
+CLAUDE.local.md

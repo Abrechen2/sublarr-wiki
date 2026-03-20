@@ -1,7 +1,7 @@
 ---
 title: Subtitle Scoring Algorithm
 description: How Sublarr scores and ranks subtitle search results before downloading
-published: true
+published: false
 date: 2026-03-14
 ---
 

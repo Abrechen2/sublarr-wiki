@@ -1,7 +1,7 @@
 ---
 title: Subtitle Provider System
 description: How Sublarr's provider system works, all built-in providers, and how to add new ones
-published: true
+published: false
 date: 2026-03-14
 ---
 
