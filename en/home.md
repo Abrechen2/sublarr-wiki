@@ -2,14 +2,14 @@
 title: Sublarr Wiki
 description: Documentation for Sublarr — self-hosted subtitle manager for anime & media
 published: true
-date: 2026-03-16
+date: 2026-03-29
 ---
 
 # Sublarr
 
 Self-hosted subtitle manager for anime & media libraries. Finds the best subtitles, translates them locally with a custom LLM model, and keeps everything in sync with your *arr stack.
 
-> **Latest:** v0.35.0-beta — Series Detail full episode grid, Movie Detail subtitle management, Security headers  <!-- Update at each release — source of truth: `backend/VERSION` -->
+> **Latest:** v0.36.0-beta — Standalone auto-mode, Language Profiles (mustContain/cutoff/audioExclude), OpenSubtitles anime fix, score video_codec weight  <!-- Update at each release — source of truth: `backend/VERSION` -->
 
 ---
 
