@@ -7,6 +7,9 @@ date: 2026-03-14
 
 # Settings — Translation
 
+> **⚠️ Beta Feature**
+> The AI translation feature is experimental and not yet reliable enough for production use. Results vary significantly depending on the model, prompt, and input quality. Use at your own risk.
+
 ### Translation Backends
 
 Sublarr supports multiple translation backends. Configure them in Settings > Translation Backends.
