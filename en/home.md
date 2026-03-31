@@ -9,7 +9,7 @@ date: 2026-03-29
 
 Self-hosted subtitle manager for anime & media libraries. Finds the best subtitles, translates them locally with a custom LLM model, and keeps everything in sync with your *arr stack.
 
-> **Latest:** v0.37.0-beta — Code quality phase 1–4, DateTime migration (**breaking** — see [Upgrade Guide](/getting-started/upgrade-guide)), security hardening (10 fixes), TranslationTab refactor, SeriesDetail performance  <!-- Update at each release — source of truth: `backend/VERSION` -->
+> **Latest:** v0.37.1-beta — Hotfix: PostgreSQL DateTime column type migration + Alembic transaction fix (see [Upgrade Guide](/getting-started/upgrade-guide))  <!-- Update at each release — source of truth: `backend/VERSION` -->
 
 ---
 
