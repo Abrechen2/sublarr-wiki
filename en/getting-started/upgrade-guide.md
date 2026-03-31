@@ -7,7 +7,53 @@ date: 2026-03-14
 
 # Migration Guide
 
-## Current Version: 0.19.2-beta
+## Current Version: 0.37.0-beta
+
+---
+
+## Upgrading to 0.37.x
+
+### v0.37.0-beta — DateTime Migration (Breaking)
+
+**⚠️ Breaking change: all timestamp columns migrated from TEXT to `DateTime(timezone=True)`.**
+
+#### What changed
+
+Previous versions stored timestamps as ISO 8601 strings with a `T` separator and `+00:00` offset:
+```
+2024-01-15T10:30:00+00:00
+```
+
+From 0.37.0-beta onward, timestamps are stored in SQLAlchemy's native SQLite format (space separator, no offset):
+```
+2024-01-15 10:30:00
+```
+
+#### Migration is automatic
+
+For **Docker deployments**, the Alembic migration `b0c1d2e3f4a5` runs automatically on container startup — no manual action required.
+
+#### Verifying the migration (optional)
+
+A standalone check script is included:
+
+```bash
+# Before upgrade — snapshot current row counts
+python scripts/check_datetime_migration.py --db /config/sublarr.db --mode before
+
+# After upgrade — verify format and compare counts
+python scripts/check_datetime_migration.py --db /config/sublarr.db --mode after
+```
+
+Exit code 0 = all checks passed. Exit code 1 = issues found (see output).
+
+#### Session timeout default changed
+
+The default session timeout is now **8 hours** (previously Flask's 31-day default). Configurable via `SUBLARR_SESSION_TIMEOUT_MINUTES`.
+
+---
+
+## Current Version (archive): 0.19.2-beta
 
 This guide covers upgrades from any previous version of Sublarr. For the full change history, see [CHANGELOG.md](../CHANGELOG.md).
 
