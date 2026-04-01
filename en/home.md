@@ -2,14 +2,14 @@
 title: Sublarr Wiki
 description: Documentation for Sublarr — self-hosted subtitle manager for anime & media
 published: true
-date: 2026-03-31
+date: 2026-04-01
 ---
 
 # Sublarr
 
 Self-hosted subtitle manager for anime & media libraries. Finds the best subtitles, translates them locally with a custom LLM model, and keeps everything in sync with your *arr stack.
 
-> **Latest:** v0.37.2-beta — Fix: AnimeTosho provider rewritten for new 2-step API; AniDB ID resolution via offline title dump (Tier 4); provider cache key includes anidb_id (see [Upgrade Guide](/getting-started/upgrade-guide))  <!-- Update at each release — source of truth: `backend/VERSION` -->
+> **Latest:** v0.37.3-beta — UI: Activity navigation restructured — Wanted promoted to top-level nav; Activity now has 4 tabs: Queue, Translations, History, Blacklist (see [Upgrade Guide](/getting-started/upgrade-guide))  <!-- Update at each release — source of truth: `backend/VERSION` -->
 
 ---
 
