@@ -35,6 +35,8 @@ Self-hosted subtitle manager for anime & media libraries. Finds the best subtitl
 | [AI Glossary](/user-guide/ai-glossary) | Auto-extract recurring terms for consistent translation |
 | [Video Sync](/user-guide/video-sync) | Sync subtitles to audio via ffsubsync / alass |
 | [Notifications](/user-guide/notifications) | Apprise-based push notifications |
+| [Post-Processing](/user-guide/post-processing) | Shell command after subtitle download |
+| [Circuit Breaker](/user-guide/advanced/circuit-breaker) | Provider resilience and failure isolation |
 | [Subtitle Trash](/user-guide/subtitle-trash) | Recovery window for deleted subtitles |
 | [Credit Filtering](/user-guide/credit-filtering) | Strip opening/ending credit lines |
 | [HI Removal](/user-guide/hi-removal) | Remove hearing-impaired annotations |
