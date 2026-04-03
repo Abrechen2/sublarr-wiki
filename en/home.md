@@ -2,14 +2,14 @@
 title: Sublarr Wiki
 description: Documentation for Sublarr — self-hosted subtitle manager for anime & media
 published: true
-date: 2026-03-16
+date: 2026-04-01
 ---
 
 # Sublarr
 
 Self-hosted subtitle manager for anime & media libraries. Finds the best subtitles, translates them locally with a custom LLM model, and keeps everything in sync with your *arr stack.
 
-> **Latest:** v0.30.0-beta — NFO Metadata & Standalone Extras Filter  <!-- Update at each release — source of truth: `backend/VERSION` -->
+> **Latest:** v0.39.0-beta — Post-Processing UI, rate limiting, 58 new tests, provider cache metrics, DB indexes, 3 new wiki pages (see [Upgrade Guide](/getting-started/upgrade-guide))  <!-- Update at each release — source of truth: `backend/VERSION` -->
 
 ---
 
@@ -35,6 +35,8 @@ Self-hosted subtitle manager for anime & media libraries. Finds the best subtitl
 | [AI Glossary](/user-guide/ai-glossary) | Auto-extract recurring terms for consistent translation |
 | [Video Sync](/user-guide/video-sync) | Sync subtitles to audio via ffsubsync / alass |
 | [Notifications](/user-guide/notifications) | Apprise-based push notifications |
+| [Post-Processing](/user-guide/post-processing) | Shell command after subtitle download |
+| [Circuit Breaker](/user-guide/advanced/circuit-breaker) | Provider resilience and failure isolation |
 | [Subtitle Trash](/user-guide/subtitle-trash) | Recovery window for deleted subtitles |
 | [Credit Filtering](/user-guide/credit-filtering) | Strip opening/ending credit lines |
 | [HI Removal](/user-guide/hi-removal) | Remove hearing-impaired annotations |
