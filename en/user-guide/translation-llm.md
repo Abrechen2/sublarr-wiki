@@ -58,3 +58,9 @@ Configure backup backends in case your primary fails. Example:
 1. Primary: Ollama (local, fast, free)
 2. Fallback 1: DeepL (cloud, high quality)
 3. Fallback 2: LibreTranslate (self-hosted backup)
+
+## Chat API & Series Context (V9+)
+
+See [Settings — Translation: Chat API](/user-guide/settings/translation#ollama-chat-api-v9)
+for the full reference including how to configure system prompts and series
+context injection.
