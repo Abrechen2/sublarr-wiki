@@ -9,7 +9,7 @@ date: 2026-04-01
 
 Self-hosted subtitle manager for anime & media libraries. Finds the best subtitles, translates them locally with a custom LLM model, and keeps everything in sync with your *arr stack.
 
-> **Latest:** v0.38.0-beta — Security hardening (P1–P5 provider SSRF/path-traversal/prompt-injection guards), language profile filters API, Ollama V9 chat API, circuit breaker persistence, major codebase refactoring (see [Upgrade Guide](/getting-started/upgrade-guide))  <!-- Update at each release — source of truth: `backend/VERSION` -->
+> **Latest:** v0.38.1-beta — HTTP route test suite (Phase 3b), 2 bug fixes via TDD, Phase 5 refactoring complete (see [Upgrade Guide](/getting-started/upgrade-guide))  <!-- Update at each release — source of truth: `backend/VERSION` -->
 
 ---
 
