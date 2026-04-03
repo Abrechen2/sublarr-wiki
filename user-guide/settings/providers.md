@@ -138,6 +138,23 @@ Bias subtitle results toward preferred release groups or block known low-quality
 > [!NOTE]
 > Excluded release groups receive a score penalty of −999, which removes them from consideration in practice. Preferred groups receive +`release_group_prefer_bonus` (default +20).
 
+## Anti-Captcha
+
+Some subtitle providers (primarily scraper-based ones) occasionally serve CAPTCHA challenges that block automated searches. Sublarr can route these requests through an anti-captcha solving service to maintain access.
+
+| Setting | Default | Env Variable | Description |
+|---------|---------|--------------|-------------|
+| `anti_captcha_provider` | *(empty)* | `SUBLARR_ANTI_CAPTCHA_PROVIDER` | Anti-captcha service to use. Supported values: `2captcha`, `anticaptcha`, `capsolver`. Leave empty to disable. |
+| `anti_captcha_api_key` | *(empty)* | `SUBLARR_ANTI_CAPTCHA_API_KEY` | API key for the selected anti-captcha service. Only required when `anti_captcha_provider` is set. |
+
+> [!NOTE]
+> Anti-captcha is only invoked when a provider returns a CAPTCHA challenge. Most providers never require it under normal usage. Typical targets: **Kitsunekko** and **Gestdown** under heavy load. Anti-captcha solving consumes credits from the external service — monitor usage on your provider dashboard.
+
+> [!TIP]
+> For most homelab setups, anti-captcha is not necessary. Providers that require accounts (OpenSubtitles, Jimaku, SubDL) generally do not issue CAPTCHAs for authenticated API traffic. Consider enabling it only if you regularly see CAPTCHA errors in the logs.
+
+---
+
 ## Circuit Breaker
 
 Each provider has an independent circuit breaker that temporarily disables it after repeated failures.

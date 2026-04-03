@@ -23,7 +23,36 @@ dateCreated: 2026-03-15
 
 Sublarr sends notifications for key events (downloads, upgrades, errors). The message text for each event is fully customizable using Jinja2-style templates. This lets you tailor the format and content to suit your notification service — whether that is a Telegram message, a Pushover alert, or a Discord embed.
 
-> **Note:** Notification URL(s) are configured in **Settings → General → Notification Settings**, not here. This page only controls the message format.
+## Notification Settings
+
+Configure where notifications are sent and which events trigger them.
+
+| Setting | Default | Env Variable | Description |
+|---------|---------|--------------|-------------|
+| Notification URLs | *(empty)* | `SUBLARR_NOTIFICATION_URLS_JSON` | JSON array of [Apprise](https://github.com/caronc/apprise) URLs. Supports 100+ services including Telegram, Discord, Pushover, Slack, and email. Example: `["tgram://bottoken/chatid", "discord://webhook-id/token"]` |
+| Notify on Download | `true` | `SUBLARR_NOTIFY_ON_DOWNLOAD` | Send a notification when a new subtitle is successfully downloaded. |
+| Notify on Upgrade | `true` | `SUBLARR_NOTIFY_ON_UPGRADE` | Send a notification when an existing subtitle is replaced by a higher-quality one. |
+| Notify on Batch Complete | `false` | `SUBLARR_NOTIFY_ON_BATCH_COMPLETE` | Send a summary notification when a batch search or translation job finishes. |
+| Notify on Error | `true` | `SUBLARR_NOTIFY_ON_ERROR` | Send a notification when a backend error, provider failure, or translation failure occurs. |
+| Notify Manual Actions | `false` | `SUBLARR_NOTIFY_MANUAL_ACTIONS` | Send notifications for manual actions (e.g. manual download, manual translation) in addition to automated ones. |
+
+**Apprise URL examples:**
+
+| Service | URL format |
+|---------|-----------|
+| Telegram | `tgram://bottoken/chatid` |
+| Discord | `discord://webhook-id/token` |
+| Pushover | `pover://user@token` |
+| Slack | `slack://tokenA/tokenB/tokenC/channel` |
+| Email (SMTP) | `mailto://user:pass@gmail.com` |
+| Gotify | `gotify://hostname/token` |
+| Ntfy.sh | `ntfy://topic` |
+
+See the [Apprise documentation](https://github.com/caronc/apprise/wiki) for a full list of supported services.
+
+---
+
+> **Note:** The template format for each notification event is configured on this page. Notification destinations (URLs) and event toggles are set in **Settings → Notifications** via the table above.
 
 ---
 

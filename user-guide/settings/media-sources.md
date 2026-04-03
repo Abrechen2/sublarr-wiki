@@ -25,9 +25,9 @@ Media Sources configures how Sublarr discovers your media library. By default, S
 
 ## Standalone Mode
 
-| Setting | Default | Description |
-|---------|---------|-------------|
-| **Enable Standalone Mode** | `off` | Scan the media directory directly instead of using Sonarr/Radarr. Requires `SUBLARR_MEDIA_PATH` to be set. |
+| Setting | Default | Env Variable | Description |
+|---------|---------|--------------|-------------|
+| **Enable Standalone Mode** | `off` | `SUBLARR_STANDALONE_ENABLED` | Scan the media directory directly instead of using Sonarr/Radarr. Requires `SUBLARR_MEDIA_PATH` to be set. |
 
 When standalone mode is enabled, Sublarr scans the configured media path for video files and populates the library from the filesystem. No Sonarr or Radarr connection is needed. Metadata (series title, episode number, year) is inferred from filenames and resolved via TMDB/TVDB — or read directly from `.nfo` sidecar files when present (see **NFO Metadata** below).
 
@@ -71,11 +71,11 @@ Sublarr also reads `poster.jpg` from the series root or season subfolder for lib
 
 ## Metadata API Keys
 
-| Setting | Description |
-|---------|-------------|
-| **TMDB API Key (Bearer Token)** | Bearer token from [themoviedb.org](https://www.themoviedb.org/settings/api). Used for movie and series metadata lookup. Required for standalone mode. |
-| **TVDB API Key (Optional)** | API key from [thetvdb.com](https://thetvdb.com/api-information). Optional — TMDB is sufficient for most use cases. |
-| **TVDB PIN (Optional)** | Subscriber PIN for TVDB paid plan. Only required for TVDB subscriber-plan features. |
+| Setting | Env Variable | Description |
+|---------|--------------|-------------|
+| **TMDB API Key (Bearer Token)** | `SUBLARR_TMDB_API_KEY` | Bearer token from [themoviedb.org](https://www.themoviedb.org/settings/api). Used for movie and series metadata lookup. Required for standalone mode. |
+| **TVDB API Key (Optional)** | `SUBLARR_TVDB_API_KEY` | API key from [thetvdb.com](https://thetvdb.com/api-information). Optional — TMDB is sufficient for most use cases. |
+| **TVDB PIN (Optional)** | `SUBLARR_TVDB_PIN` | Subscriber PIN for TVDB paid plan. Only required for TVDB subscriber-plan features. |
 
 > [!TIP]
 > TMDB offers a free API tier with no rate-limit issues for typical homelab use. Register at thetvdb.com → API access to get your bearer token.

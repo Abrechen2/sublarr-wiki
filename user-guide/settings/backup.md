@@ -41,11 +41,11 @@ Daily, weekly, and monthly backups run independently. On a day that matches both
 
 ## Retention
 
-| Setting | Default | Description |
-|---------|---------|-------------|
-| Daily copies to keep | `7` | Number of most-recent daily backup files to retain. Older files are deleted automatically after each new backup. |
-| Weekly copies to keep | `4` | Number of most-recent weekly backup files to retain (approximately 1 month). |
-| Monthly copies to keep | `3` | Number of most-recent monthly backup files to retain (approximately 3 months). |
+| Setting | Default | Env Variable | Description |
+|---------|---------|--------------|-------------|
+| Daily copies to keep | `7` | `SUBLARR_BACKUP_RETENTION_DAILY` | Number of most-recent daily backup files to retain. Older files are deleted automatically after each new backup. |
+| Weekly copies to keep | `4` | `SUBLARR_BACKUP_RETENTION_WEEKLY` | Number of most-recent weekly backup files to retain (approximately 1 month). |
+| Monthly copies to keep | `3` | `SUBLARR_BACKUP_RETENTION_MONTHLY` | Number of most-recent monthly backup files to retain (approximately 3 months). |
 
 With the default settings, the backup directory will contain at most `7 + 4 + 3 = 14` backup ZIP files, covering a rolling window of approximately 3 months.
 
@@ -61,9 +61,9 @@ sublarr-backup-monthly-2026-03-01T02-00-00.zip
 
 ## Backup Location
 
-| Setting | Default | Description |
-|---------|---------|-------------|
-| Backup directory | `/config/backups` | Directory inside the container where backup ZIP files are stored. Change this to a host-mounted volume path if you want backups to persist independently of the container's config volume. |
+| Setting | Default | Env Variable | Description |
+|---------|---------|--------------|-------------|
+| Backup directory | `/config/backups` | `SUBLARR_BACKUP_DIR` | Directory inside the container where backup ZIP files are stored. Change this to a host-mounted volume path if you want backups to persist independently of the container's config volume. |
 
 > [!TIP]
 > Mount the backup directory to a separate volume or a network share to protect backups from being lost if the config volume is corrupted or accidentally deleted:

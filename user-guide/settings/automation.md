@@ -27,16 +27,16 @@ Automation controls when Sublarr looks for missing subtitles, how aggressively i
 
 The Wanted list is the queue of episodes and movies that are missing a subtitle in one or more configured languages. A **Wanted Scan** walks your media library and re-builds this list by comparing what is on disk against what the database expects.
 
-| Setting | Default | Description |
-|---------|---------|-------------|
-| Scan interval (hours) | `0` | How often to run a full Wanted scan. `0` disables the timer — scans happen only via webhook events from Sonarr/Radarr or manually. |
-| Scan on startup | `false` | Run a full Wanted scan immediately when the container starts. Useful after a long downtime to catch missed events. |
-| Anime series only | `true` | When enabled, only series tagged as anime in Sonarr are included in the Wanted scan. Disable to scan all series regardless of genre. |
-| Anime movies only | `false` | Filter Radarr movies by anime tag. When enabled, only movies tagged as anime are added to the Wanted list. |
-| Auto-extract embedded subs | `false` | Automatically extract embedded subtitle streams from MKV files during the Wanted scan before querying any provider. |
-| Max search attempts | `3` | Maximum number of provider search attempts per item before it is marked as failed and removed from active rotation. |
-| Use embedded subtitles | `true` | Check embedded subtitle streams inside MKV files before querying providers. If a matching stream is found, Sublarr uses it directly without a network search. |
-| Scan yield (ms) | `0` | Milliseconds to sleep between processing each series or movie during a scan. Set a small value (e.g. `50`) on low-powered hardware to yield CPU time back to API threads. `0` disables any yield. |
+| Setting | Default | Env Variable | Description |
+|---------|---------|--------------|-------------|
+| Scan interval (hours) | `0` | `SUBLARR_WANTED_SCAN_INTERVAL_HOURS` | How often to run a full Wanted scan. `0` disables the timer — scans happen only via webhook events from Sonarr/Radarr or manually. |
+| Scan on startup | `false` | `SUBLARR_WANTED_SCAN_ON_STARTUP` | Run a full Wanted scan immediately when the container starts. Useful after a long downtime to catch missed events. |
+| Anime series only | `true` | `SUBLARR_WANTED_ANIME_ONLY` | When enabled, only series tagged as anime in Sonarr are included in the Wanted scan. Disable to scan all series regardless of genre. |
+| Anime movies only | `false` | `SUBLARR_WANTED_ANIME_MOVIES_ONLY` | Filter Radarr movies by anime tag. When enabled, only movies tagged as anime are added to the Wanted list. |
+| Auto-extract embedded subs | `false` | `SUBLARR_WANTED_AUTO_EXTRACT` | Automatically extract embedded subtitle streams from MKV files during the Wanted scan before querying any provider. |
+| Max search attempts | `3` | `SUBLARR_WANTED_MAX_SEARCH_ATTEMPTS` | Maximum number of provider search attempts per item before it is marked as failed and removed from active rotation. |
+| Use embedded subtitles | `true` | `SUBLARR_USE_EMBEDDED_SUBS` | Check embedded subtitle streams inside MKV files before querying providers. If a matching stream is found, Sublarr uses it directly without a network search. |
+| Scan yield (ms) | `0` | `SUBLARR_SCAN_YIELD_MS` | Milliseconds to sleep between processing each series or movie during a scan. Set a small value (e.g. `50`) on low-powered hardware to yield CPU time back to API threads. `0` disables any yield. |
 
 > [!TIP]
 > If Sonarr and Radarr webhooks are configured, a periodic scan is largely redundant — events fire as soon as new media is imported. Enable **Scan on startup** only if your setup has occasional webhook delivery failures.
@@ -49,13 +49,13 @@ When the scan runs, Sublarr does **not** immediately search for subtitles — it
 
 Provider Search is the background task that takes items from the Wanted list and queries subtitle providers for matches.
 
-| Setting | Default | Description |
-|---------|---------|-------------|
-| Search interval (hours) | `24` | How often to process the Wanted queue. Sublarr searches the oldest items first. |
-| Max concurrent searches | `3` | Maximum number of simultaneous provider searches. Higher values speed up large backlogs but increase the risk of rate-limiting by providers. Recommended range: 1–5. |
-| Search on startup | `false` | Run a provider search pass immediately when the container starts, in addition to the scheduled interval. |
-| Max items per run | `0` | Maximum number of Wanted items processed in a single scheduled search run. `0` means unlimited — all pending items are searched each run. Set a cap (e.g. `50`) to spread load across multiple runs. |
-| Upgrade scan interval (hours) | `24` | How often to scan for subtitles that are eligible for a quality upgrade. `0` disables the upgrade scanner entirely. |
+| Setting | Default | Env Variable | Description |
+|---------|---------|--------------|-------------|
+| Search interval (hours) | `24` | `SUBLARR_WANTED_SEARCH_INTERVAL_HOURS` | How often to process the Wanted queue. Sublarr searches the oldest items first. |
+| Max concurrent searches | `3` | — | Maximum number of simultaneous provider searches. Higher values speed up large backlogs but increase the risk of rate-limiting by providers. Recommended range: 1–5. |
+| Search on startup | `false` | `SUBLARR_WANTED_SEARCH_ON_STARTUP` | Run a provider search pass immediately when the container starts, in addition to the scheduled interval. |
+| Max items per run | `0` | `SUBLARR_WANTED_SEARCH_MAX_ITEMS_PER_RUN` | Maximum number of Wanted items processed in a single scheduled search run. `0` means unlimited — all pending items are searched each run. Set a cap (e.g. `50`) to spread load across multiple runs. |
+| Upgrade scan interval (hours) | `24` | `SUBLARR_UPGRADE_SCAN_INTERVAL_HOURS` | How often to scan for subtitles that are eligible for a quality upgrade. `0` disables the upgrade scanner entirely. |
 
 > [!NOTE]
 > Each provider has its own rate limit. AnimeTosho and Kitsunekko are scraper-based and are more sensitive to bursts than API-based providers like OpenSubtitles or Jimaku. If you see providers returning HTTP 429 errors in the logs, lower **Max concurrent searches** to `1` or `2`.
@@ -157,11 +157,11 @@ Upgrade respects format promotion rules — an ASS subtitle will never be replac
 
 After a provider search or manual extraction, Sublarr may download multiple subtitle variants (different languages, different formats) before selecting the best match. Auto-cleanup removes the unwanted intermediary files automatically.
 
-| Setting | Default | Description |
-|---------|---------|-------------|
-| Auto-cleanup after extract | `false` | Delete subtitle files that do not match the configured keep criteria after a batch extract or search run |
-| Keep languages | *(empty)* | Comma-separated list of language codes to keep (e.g. `en,de,ja`). Empty means keep all languages. |
-| Keep formats | `any` | Which subtitle formats to retain. Options: `any` (keep everything), `ass` (keep only ASS files, delete SRT), `srt` (keep only SRT files, delete ASS). |
+| Setting | Default | Env Variable | Description |
+|---------|---------|--------------|-------------|
+| Auto-cleanup after extract | `false` | `SUBLARR_AUTO_CLEANUP_AFTER_EXTRACT` | Delete subtitle files that do not match the configured keep criteria after a batch extract or search run |
+| Keep languages | *(empty)* | `SUBLARR_AUTO_CLEANUP_KEEP_LANGUAGES` | Comma-separated list of language codes to keep (e.g. `en,de,ja`). Empty means keep all languages. |
+| Keep formats | `any` | `SUBLARR_AUTO_CLEANUP_KEEP_FORMATS` | Which subtitle formats to retain. Options: `any` (keep everything), `ass` (keep only ASS files, delete SRT), `srt` (keep only SRT files, delete ASS). |
 
 > [!WARNING]
 > Auto-cleanup deletes files from disk. Deleted subtitle files are moved to the **Subtitle Trash** (see below) before deletion and can be recovered during the trash retention window. After that window, recovery is not possible.
@@ -210,7 +210,7 @@ At the top of the panel, a **Purge All Expired** button removes all files that h
 
 ## Advanced
 
-| Setting | Default | Description |
-|---------|---------|-------------|
-| **Streaming Enabled** | `true` | Enable the HTTP video streaming endpoint (`GET /api/v1/media/stream`). Serves video files with HTTP 206 range-request support for the built-in Web Player. Disable to block direct media access via the API. Configurable via `streaming_enabled`. |
-| **Auto NFO Export** | `false` | Automatically write an XML `.nfo` sidecar alongside every downloaded or translated subtitle. Contains provider, language, score, translation backend, BLEU score, and Sublarr version. Expert feature. |
+| Setting | Default | Env Variable | Description |
+|---------|---------|--------------|-------------|
+| **Streaming Enabled** | `true` | `SUBLARR_STREAMING_ENABLED` | Enable the HTTP video streaming endpoint (`GET /api/v1/media/stream`). Serves video files with HTTP 206 range-request support for the built-in Web Player. Disable to block direct media access via the API. |
+| **Auto NFO Export** | `false` | `SUBLARR_AUTO_NFO_EXPORT` | Automatically write an XML `.nfo` sidecar alongside every downloaded or translated subtitle. Contains provider, language, score, translation backend, BLEU score, and Sublarr version. Expert feature. |
