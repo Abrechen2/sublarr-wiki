@@ -9,7 +9,7 @@ date: 2026-04-01
 
 Self-hosted subtitle manager for anime & media libraries. Finds the best subtitles, translates them locally with a custom LLM model, and keeps everything in sync with your *arr stack.
 
-> **Latest:** v0.40.0-beta — Subtitle Presence Pills on Wanted page, `embedded_languages` scanner field, column renamed to "Untertitel" (see [Upgrade Guide](/getting-started/upgrade-guide))  <!-- Update at each release — source of truth: `backend/VERSION` -->
+> **Latest:** v0.41.0-beta — Dedicated Cleanup Rules settings page with Language Filter, Format Upgrade, Orphan Files and DB Cleanup rule types, dry-run preview, and schedules (see [Upgrade Guide](/getting-started/upgrade-guide))  <!-- Update at each release — source of truth: `backend/VERSION` -->
 
 ---
 
