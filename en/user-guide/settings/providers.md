@@ -2,7 +2,7 @@
 title: Settings — Providers
 description: Subtitle provider configuration, supported providers, and scoring algorithm
 published: true
-date: 2026-03-14
+date: 2026-04-10
 ---
 
 # Subtitle Provider System
@@ -34,7 +34,7 @@ Sublarr uses a modular provider system to search and download subtitles from mul
 
 ## Existing Providers
 
-Sublarr includes 18 built-in providers. *(Updated v0.33.0-beta)*
+Sublarr includes 22 built-in providers. *(Updated v0.47.3-beta)*
 
 ### 1. AnimeTosho
 
@@ -168,6 +168,21 @@ No API key needed.
 **Best for**: Extracting subtitles already embedded in your media files
 
 Reads embedded subtitle tracks directly from video files in your library. Results are treated as regular search results and scored/ranked alongside external providers. No external API needed — requires `ffprobe` in the container (included by default).
+
+---
+
+*The following providers were added after v0.33.0-beta:*
+
+### 19–21. (Additional providers)
+
+*(Documentation in progress)*
+
+### 22. SubsDump
+
+**Type:** Anime-focused subtitle database  
+**Requires API key:** No  
+**Languages:** Japanese → German/English (anime-specialized)  
+**Notes:** Self-hosted subtitle database for anime content. Requires a local SubsDump instance.
 
 ## Anti-Captcha
 
