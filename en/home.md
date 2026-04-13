@@ -30,21 +30,15 @@ Self-hosted subtitle manager for anime & media libraries. Finds the best subtitl
 | [Library](/user-guide/library) | Browsing and managing your media library |
 | [Wanted](/user-guide/wanted) | Automatic missing subtitle detection and search |
 | [Activity](/user-guide/activity) | Translation jobs, download history |
-| [Web Player](/user-guide/web-player) | In-browser video player with subtitle overlay |
-| [Waveform Editor](/user-guide/waveform-editor) | Timeline-based subtitle editing |
-| [AI Glossary](/user-guide/ai-glossary) | Auto-extract recurring terms for consistent translation |
-| [Video Sync](/user-guide/video-sync) | Sync subtitles to audio via ffsubsync / alass |
-| [Notifications](/user-guide/notifications) | Apprise-based push notifications |
-| [Post-Processing](/user-guide/post-processing) | Shell command after subtitle download |
-| [Circuit Breaker](/user-guide/advanced/circuit-breaker) | Provider resilience and failure isolation |
-| [Subtitle Trash](/user-guide/subtitle-trash) | Recovery window for deleted subtitles |
-| [Credit Filtering](/user-guide/credit-filtering) | Strip opening/ending credit lines |
-| [HI Removal](/user-guide/hi-removal) | Remove hearing-impaired annotations |
-| [Stream Removal](/user-guide/stream-removal) | Remux: strip embedded subtitle streams |
-| [Settings](/user-guide/settings/general) | Full settings reference |
 | [Language Profiles](/user-guide/language-profiles) | Per-series language targeting |
 | [Translation & LLM](/user-guide/translation-llm) | Ollama, custom anime model, translation pipeline |
-| [Integrations](/user-guide/integrations) | Sonarr, Radarr, Jellyfin, Emby |
+| [Integrations](/user-guide/integrations) | Sonarr, Radarr, Jellyfin, Emby, Plex, Kodi |
+| [Cleanup](/user-guide/cleanup) | Deduplication, orphan detection, format upgrades |
+| [Post-Processing](/user-guide/post-processing) | Shell command, video sync, HI removal, credit filtering |
+| [Movie Subtitles](/user-guide/movie-subtitles) | Radarr movie subtitle management |
+| [Localization](/user-guide/localization) | UI language (DE/EN), 74 subtitle languages |
+| [Circuit Breaker](/user-guide/advanced/circuit-breaker) | Provider resilience and failure isolation |
+| [Settings](/user-guide/settings/general) | Full settings reference |
 
 ## Troubleshooting
 

@@ -76,6 +76,9 @@ All settings use the `SUBLARR_` prefix. Key variables:
 
 Most configuration is managed through the web UI after initial setup. Environment variables provide defaults that can be overridden in Settings.
 
+> [!TIP]
+> For a complete list of all 190+ environment variables, see the [Environment Variables Reference](/getting-started/environment-variables).
+
 ## Setup Scenarios
 
 ### Scenario 1: Sonarr + Radarr (Recommended)

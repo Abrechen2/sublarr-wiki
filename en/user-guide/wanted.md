@@ -7,7 +7,7 @@ date: 2026-03-14
 
 # Wanted
 
-The Wanted list tracks all episodes and movies in your library that are missing subtitles matching your Language Profile. Sublarr automatically populates this list from your connected Jellyfin/Emby library.
+The Wanted list tracks all episodes and movies in your library that are missing subtitles matching your Language Profile. Sublarr automatically populates this list from your connected Sonarr/Radarr instances, standalone watched folders, or a combination of both.
 
 ### Wanted System
 

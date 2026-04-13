@@ -7,7 +7,7 @@ date: 2026-03-14
 
 # Wanted
 
-Die Wanted-Liste erfasst alle Episoden und Filme in der Bibliothek, denen Untertitel gemäß dem zugewiesenen Sprachprofil fehlen. Sublarr füllt diese Liste automatisch aus der verbundenen Jellyfin-/Emby-Bibliothek.
+Die Wanted-Liste erfasst alle Episoden und Filme in der Bibliothek, denen Untertitel gemaess dem zugewiesenen Sprachprofil fehlen. Sublarr fuellt diese Liste automatisch aus den verbundenen Sonarr-/Radarr-Instanzen, Standalone-Ordnern oder einer Kombination aus beidem.
 
 ### Wanted-System
 

@@ -2,14 +2,14 @@
 title: Sublarr Wiki
 description: Dokumentation für Sublarr — selbstgehosteter Untertitel-Manager für Anime & Medien
 published: true
-date: 2026-04-01
+date: 2026-04-13
 ---
 
 # Sublarr
 
 Selbstgehosteter Untertitel-Manager für Anime- und Medienbibliotheken. Findet die besten Untertitel, übersetzt sie lokal mit einem eigenen LLM-Modell und hält alles synchron mit dem *arr-Stack.
 
-> **Aktuell:** v0.47.3-beta — Film-Untertitelverwaltung, 74 Sprachoptionen, vollständige DE/EN-UI-Lokalisierung, neu gestaltete Cleanup-Seite mit 5 festen Operationen und Dry-Run-Dateivorschau, persistente Settings-Navigation, Post-Processing-UI und Untertitel-Präsenz-Pillen auf der Wanted-Seite. (siehe [Upgrade-Leitfaden](/getting-started/upgrade-guide))  <!-- Bei jedem Release aktualisieren — Source of Truth: `backend/VERSION` -->
+> **Aktuell:** v0.51.3-beta — OpenAPI-Security auf allen 286 Routen, 3600+ Tests, Circuit-Breaker Auth-Propagation, Firefox WebVTT-Untertitel-Fix, SECURITY.md und MIGRATION.md fuer V1-Bereitschaft. (siehe [Upgrade-Leitfaden](/getting-started/upgrade-guide))  <!-- Bei jedem Release aktualisieren — Source of Truth: `backend/VERSION` -->
 
 ---
 
@@ -29,22 +29,16 @@ Selbstgehosteter Untertitel-Manager für Anime- und Medienbibliotheken. Findet d
 |---|---|
 | [Bibliothek](/user-guide/library) | Medienbibliothek durchsuchen und verwalten |
 | [Wanted](/user-guide/wanted) | Automatische Erkennung und Suche fehlender Untertitel |
-| [Aktivität](/user-guide/activity) | Übersetzungsjobs, Download-Verlauf |
-| [Web Player](/user-guide/web-player) | Video-Player im Browser mit Untertitel-Overlay |
-| [Wellenform-Editor](/user-guide/waveform-editor) | Timeline-basierte Untertitelbearbeitung |
-| [AI-Glossar](/user-guide/ai-glossary) | Wiederkehrende Begriffe automatisch für konsistente Übersetzung extrahieren |
-| [Video Sync](/user-guide/video-sync) | Untertitel per ffsubsync / alass an Audio synchronisieren |
-| [Benachrichtigungen](/user-guide/notifications) | Push-Benachrichtigungen via Apprise |
-| [Post-Processing](/user-guide/post-processing) | Shell-Befehl nach Untertitel-Download |
-| [Circuit Breaker](/user-guide/advanced/circuit-breaker) | Provider-Resilienz und Fehlerisolierung |
-| [Untertitel-Papierkorb](/user-guide/subtitle-trash) | Wiederherstellungsfenster für gelöschte Untertitel |
-| [Credit-Filterung](/user-guide/credit-filtering) | Opening-/Ending-Credit-Zeilen entfernen |
-| [HI-Entfernung](/user-guide/hi-removal) | Hörgeschädigten-Annotationen entfernen |
-| [Stream-Entfernung](/user-guide/stream-removal) | Remux: eingebettete Untertitel-Streams entfernen |
-| [Einstellungen](/user-guide/settings/general) | Vollständige Einstellungsreferenz |
+| [Aktivitaet](/user-guide/activity) | Uebersetzungsjobs, Download-Verlauf |
 | [Sprachprofile](/user-guide/language-profiles) | Sprach-Zuweisung pro Serie |
-| [Übersetzung & LLM](/user-guide/translation-llm) | Ollama, eigenes Anime-Modell, Übersetzungs-Pipeline |
-| [Integrationen](/user-guide/integrations) | Sonarr, Radarr, Jellyfin, Emby |
+| [Uebersetzung & LLM](/user-guide/translation-llm) | Ollama, eigenes Anime-Modell, Uebersetzungs-Pipeline |
+| [Integrationen](/user-guide/integrations) | Sonarr, Radarr, Jellyfin, Emby, Plex, Kodi |
+| [Bereinigung](/user-guide/cleanup) | Deduplizierung, Waisen-Erkennung, Format-Upgrades |
+| [Post-Processing](/user-guide/post-processing) | Shell-Befehle, Video-Sync, HI-Entfernung, Credit-Filterung |
+| [Film-Untertitel](/user-guide/movie-subtitles) | Radarr Film-Untertitelverwaltung |
+| [Lokalisierung](/user-guide/localization) | UI-Sprache (DE/EN), 74 Untertitel-Sprachen |
+| [Circuit Breaker](/user-guide/advanced/circuit-breaker) | Provider-Resilienz und Fehlerisolierung |
+| [Einstellungen](/user-guide/settings/general) | Vollstaendige Einstellungsreferenz |
 
 ## Fehlerbehebung
 
