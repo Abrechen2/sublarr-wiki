@@ -29,16 +29,16 @@ Selbstgehosteter Untertitel-Manager für Anime- und Medienbibliotheken. Findet d
 |---|---|
 | [Bibliothek](/user-guide/library) | Medienbibliothek durchsuchen und verwalten |
 | [Wanted](/user-guide/wanted) | Automatische Erkennung und Suche fehlender Untertitel |
-| [Aktivitaet](/user-guide/activity) | Uebersetzungsjobs, Download-Verlauf |
+| [Aktivität](/user-guide/activity) | Übersetzungsjobs, Download-Verlauf |
 | [Sprachprofile](/user-guide/language-profiles) | Sprach-Zuweisung pro Serie |
-| [Uebersetzung & LLM](/user-guide/translation-llm) | Ollama, eigenes Anime-Modell, Uebersetzungs-Pipeline |
+| [Übersetzung & LLM](/user-guide/translation-llm) | Ollama, eigenes Anime-Modell, Übersetzungs-Pipeline |
 | [Integrationen](/user-guide/integrations) | Sonarr, Radarr, Jellyfin, Emby, Plex, Kodi |
 | [Bereinigung](/user-guide/cleanup) | Deduplizierung, Waisen-Erkennung, Format-Upgrades |
 | [Post-Processing](/user-guide/post-processing) | Shell-Befehle, Video-Sync, HI-Entfernung, Credit-Filterung |
 | [Film-Untertitel](/user-guide/movie-subtitles) | Radarr Film-Untertitelverwaltung |
 | [Lokalisierung](/user-guide/localization) | UI-Sprache (DE/EN), 74 Untertitel-Sprachen |
 | [Circuit Breaker](/user-guide/advanced/circuit-breaker) | Provider-Resilienz und Fehlerisolierung |
-| [Einstellungen](/user-guide/settings/general) | Vollstaendige Einstellungsreferenz |
+| [Einstellungen](/user-guide/settings/general) | Vollständige Einstellungsreferenz |
 
 ## Fehlerbehebung
 

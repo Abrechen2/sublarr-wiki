@@ -7,6 +7,9 @@ date: 2026-04-13
 
 # Settings — General
 
+> [!TIP]
+> Most users only need to configure **Host & Port**, **Authentication**, and **Backups**. The Database, Redis, CORS, and Plugin sections are for advanced deployments and can be safely ignored.
+
 This page covers the UI-configurable settings in **Settings → General**. For environment variable configuration, see [Environment Variables](/getting-started/environment-variables).
 
 ## Host & Port
@@ -34,7 +37,7 @@ See [Login Setup](/getting-started/quick-start#authentication) for the full setu
 | Session Timeout (minutes) | `0` | `SUBLARR_SESSION_TIMEOUT_MINUTES` | Inactivity timeout before auto-logout. `0` = no timeout |
 | Max Login Attempts | `20` | `SUBLARR_MAX_LOGIN_ATTEMPTS` | Failed login attempts before account lockout |
 | Lockout Duration (minutes) | `60` | `SUBLARR_LOCKOUT_DURATION_MINUTES` | How long the account stays locked after exceeding max attempts |
-| Allowed IP Ranges | _(empty)_ | `SUBLARR_ALLOWED_IP_RANGES` | Comma-separated CIDR ranges (e.g. `192.168.1.0/24,10.0.0.0/8`). Empty = allow all |
+| Allowed IP Ranges | _(empty)_ | `SUBLARR_ALLOWED_IP_RANGES` | Comma-separated CIDR ranges (e.g. `192.168.1.0/24` = all IPs from .1.0 to .1.255). Leave empty to allow all IPs. |
 
 > [!TIP]
 > For homelab setups behind a VPN, you can leave Allowed IP Ranges empty. Use it when exposing Sublarr to the internet to restrict access to trusted networks.
@@ -51,6 +54,9 @@ See [Login Setup](/getting-started/quick-start#authentication) for the full setu
 > Set `SUBLARR_LOG_FORMAT=json` when feeding logs into Loki, Elasticsearch, or similar systems. The `text` format is easier to read in `docker logs`.
 
 ## Database
+
+> [!NOTE]
+> Most users can skip this section. SQLite (the default) works without any configuration.
 
 | Setting | Default | Env Variable | Description |
 |---------|---------|--------------|-------------|
@@ -73,6 +79,9 @@ See [Login Setup](/getting-started/quick-start#authentication) for the full setu
 > Setting `SUBLARR_CORS_ORIGINS=*` allows any origin. Only use this in fully trusted environments.
 
 ## Redis
+
+> [!NOTE]
+> Redis is optional. Without it, Sublarr uses in-memory caching and processing — perfectly fine for most setups.
 
 | Setting | Default | Env Variable | Description |
 |---------|---------|--------------|-------------|

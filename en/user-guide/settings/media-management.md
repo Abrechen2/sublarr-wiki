@@ -91,7 +91,12 @@ Add root folders under **Settings → Media Management → Root Folders**.
 |---------|---------|--------------|-------------|
 | HI Interjections List | _(empty)_ | `SUBLARR_HI_INTERJECTIONS_LIST` | Newline-separated list of custom hearing-impaired interjection patterns. Empty = use the built-in list (`backend/data/hi_interjections.txt`) |
 
+Hearing-impaired subtitles include sound descriptions like `[door opens]` or `[laughs]`. This list controls which patterns are removed when HI Removal is enabled.
+
 ## Post-Processing Pipeline
+
+> [!NOTE]
+> Post-processing is optional. These tools enhance subtitles after download — fixing timing, removing hearing-impaired tags, or stripping credits. None are required for basic operation.
 
 Automatic subtitle processing steps that run after every download or extraction.
 
@@ -117,6 +122,11 @@ Execute a custom shell command after each subtitle download.
 
 > [!TIP]
 > Available variables in the command: `{subtitle_path}`, `{video_path}`, `{language}`, `{provider}`, `{score}`, `{media_type}`.
+>
+> Example: Log every download to a file:
+> ```bash
+> echo "{subtitle_path} from {provider} (score: {score})" >> /config/download.log
+> ```
 
 ## Remux / Stream Removal
 

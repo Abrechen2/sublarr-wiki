@@ -202,7 +202,7 @@ SUBLARR_SUBSDUMP_API_KEY=your_api_key_here   # Optional — leave empty if not r
 | Rate Limit Throttle (minutes) | `60` | `SUBLARR_PROVIDER_RATE_LIMIT_THROTTLE_MINUTES` | Extended throttle duration after receiving an HTTP 429 (Too Many Requests) from a provider |
 
 > [!NOTE]
-> When a provider responds with HTTP 429, Sublarr stops sending requests to that provider for the configured throttle duration. This prevents ban escalation and respects the provider's rate limits.
+> When a provider responds with HTTP 429, Sublarr stops sending requests to that provider for the configured throttle duration. This prevents ban escalation and respects the provider's rate limits. Additionally, each provider has a circuit breaker (automatically pauses a provider that fails repeatedly — resets after 5 minutes) to prevent cascading failures.
 
 ## Anti-Captcha
 
@@ -226,6 +226,8 @@ Since v0.9.0-beta, Sublarr supports loading custom subtitle providers as plugins
 ## Subtitle Scoring
 
 Sublarr scores every subtitle search result before downloading. Higher scores win.
+
+Sublarr uses these scores to pick the best subtitle from multiple results. For anime, ASS format (with fansub styling) is heavily preferred over plain SRT. You rarely need to change these defaults.
 
 ### Base Score by Format
 

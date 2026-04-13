@@ -40,6 +40,8 @@ Find the API key at Sonarr → **Settings → General → API Key**.
 
 For multiple Sonarr instances:
 
+Most users have a single Sonarr instance and can skip this. Multi-instance is for setups with separate Sonarr instances (e.g. one for anime, one for regular TV).
+
 ```
 SUBLARR_SONARR_INSTANCES_JSON=[
   {"name": "Anime", "url": "http://sonarr-anime:8989", "api_key": "abc123"},
@@ -187,6 +189,8 @@ Sublarr can send notifications via Apprise, which supports 80+ services.
 ```
 SUBLARR_NOTIFICATION_URLS_JSON=["pover://UserKey@AppToken", "discord://WebhookID/Token"]
 ```
+
+See the [Apprise wiki](https://github.com/caronc/apprise/wiki) for the full list of 80+ supported services and their URL formats.
 
 Service examples:
 

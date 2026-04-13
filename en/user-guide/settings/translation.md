@@ -7,8 +7,8 @@ date: 2026-04-13
 
 # Settings — Translation
 
-> [!WARNING]
-> The AI translation feature is experimental and not yet reliable enough for production use. Results vary significantly depending on the model, prompt, and input quality. Use at your own risk.
+> [!NOTE]
+> Translation quality varies by model and language pair. For anime (Japanese → German), models like `qwen2.5:14b-instruct` work well. Test on a few episodes before running batch translations.
 
 ## Feature Gate
 
@@ -43,7 +43,7 @@ Translation must be explicitly enabled before any translation jobs can run.
 | Max Retries | `3` | `SUBLARR_MAX_RETRIES` | Maximum retry attempts on LLM failure before giving up |
 
 > [!TIP]
-> For the best anime subtitle quality, use the custom fine-tuned model: `hf.co/Sublarr/anime-translator-v6-GGUF:Q4_K_M` (see [HuggingFace](https://huggingface.co/Sublarr)).
+> For the best anime subtitle quality, use the custom fine-tuned model: `hf.co/Sublarr/anime-translator-v6-GGUF:Q4_K_M` (see [HuggingFace](https://huggingface.co/Sublarr)). GGUF is a compressed model format that runs on CPU or GPU. Q4_K_M is a good balance of speed and quality.
 
 ## Worker & Performance
 
@@ -76,6 +76,9 @@ Sublarr supports multiple translation backends. Configure them in Settings > Tra
 | **LibreTranslate** | API | Yes | Optional | Self-hosted, privacy-focused |
 | **OpenAI-compatible** | LLM | Both | Yes | GPT-4, local LLMs with OpenAI API |
 | **Google Cloud** | API | No | Yes | Broad language support, fast |
+
+> [!TIP]
+> Most users should use the default Ollama settings. Only change these if you have a specific model requirement.
 
 **Configuring Ollama (Default):**
 1. Install Ollama on your server

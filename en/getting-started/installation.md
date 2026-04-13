@@ -81,6 +81,11 @@ Most configuration is managed through the web UI after initial setup. Environmen
 
 ## Setup Scenarios
 
+> **Which scenario should I pick?**
+> - **Scenario 1** — You already run Sonarr and/or Radarr (most users)
+> - **Scenario 2** — You just want to point Sublarr at media folders (no *arr apps)
+> - **Scenario 3** — You use both Sonarr/Radarr AND standalone folders
+
 ### Scenario 1: Sonarr + Radarr (Recommended)
 
 The most common setup -- Sublarr monitors your Sonarr/Radarr libraries and handles subtitles automatically.
@@ -91,7 +96,7 @@ The most common setup -- Sublarr monitors your Sonarr/Radarr libraries and handl
 2. Enter your Sonarr URL (e.g., `http://192.168.1.100:8989`)
 3. Enter your Sonarr API key (found in Sonarr > Settings > General)
 4. Click **Test** to verify connection
-5. **Path Mapping:** If Sonarr sees media at a different path than Sublarr (common in Docker), configure path mappings:
+5. **Path Mapping:** If Sonarr sees media at a different path than Sublarr (common in Docker), configure path mappings. This is needed when Sonarr and Sublarr run in separate Docker containers with different mount points. Example: Sonarr sees `/tv` but Sublarr sees `/media/tv` — same files, different paths.
    - Remote Path: `/tv` (path in Sonarr)
    - Local Path: `/media/tv` (path in Sublarr)
 
@@ -164,7 +169,7 @@ Standalone mode needs metadata providers to identify your media:
 1. After configuring watched folders, click **Scan Now** on the Library Sources page
 2. Sublarr will:
    - Detect all media files in your folders
-   - Parse filenames using `guessit` (anime-aware)
+   - Parse filenames using a smart filename parser (anime-aware)
    - Look up metadata from configured providers
    - Group files into series/movies
    - Add items missing subtitles to the Wanted list

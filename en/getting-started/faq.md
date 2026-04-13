@@ -79,7 +79,7 @@ SRT is plain text only. Sublarr scores ASS +150 points above SRT and will never 
 Common causes:
 
 1. **No matching provider found** — check which providers are enabled and have API keys
-2. **Provider circuit breaker OPEN** — a provider failed too many times; wait for cooldown or reset in Settings
+2. **Provider temporarily paused** — it failed too many times — Sublarr stops querying it to avoid overloading the service; resets automatically after 5 minutes. You can also reset manually in Settings
 3. **Item not in Wanted queue** — check the Wanted page to see if the file was scanned
 4. **Path mapping wrong** — if Sonarr and Sublarr use different mount paths, set `SUBLARR_PATH_MAPPING`
 5. **Language profile not set** — the series needs a language profile assigned in Library
@@ -126,11 +126,7 @@ Yes. In **Settings → Translation → Prompt Presets**, create a custom preset 
 
 ### What is Translation Memory?
 
-Translation Memory caches previous translations. When the same (or very similar) subtitle line appears again, Sublarr reuses the cached translation instead of calling the LLM. This significantly speeds up re-translation of series with consistent dialogue patterns.
-
-Cache matching uses:
-- **SHA-256 exact match** — identical lines are reused immediately
-- **difflib similarity** — lines above 90% similarity threshold reuse the cached translation
+Translation Memory saves previous translations. When the same dialogue appears again, Sublarr reuses the saved version instead of calling the LLM, which speeds up repeated content significantly.
 
 ---
 
