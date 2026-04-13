@@ -2,13 +2,68 @@
 title: Settings — Translation
 description: LLM translation backend configuration — Ollama, custom model
 published: true
-date: 2026-03-14
+date: 2026-04-13
 ---
 
 # Settings — Translation
 
-> **⚠️ Beta Feature**
+> [!WARNING]
 > The AI translation feature is experimental and not yet reliable enough for production use. Results vary significantly depending on the model, prompt, and input quality. Use at your own risk.
+
+## Feature Gate
+
+Translation must be explicitly enabled before any translation jobs can run.
+
+| Setting | Default | Env Variable | Description |
+|---------|---------|--------------|-------------|
+| Translation Enabled | `false` | `SUBLARR_TRANSLATION_ENABLED` | Master switch for the translation system. Must be set to `true` before any translation can occur |
+
+> [!NOTE]
+> When `translation_enabled` is `false`, all translation-related UI elements are hidden or disabled. Enable it in **Settings → Translation** to unlock the full translation pipeline.
+
+## Language Settings
+
+| Setting | Default | Env Variable | Description |
+|---------|---------|--------------|-------------|
+| Source Language | `en` | `SUBLARR_SOURCE_LANGUAGE` | ISO 639-1 code of the source subtitle language |
+| Target Language | `de` | `SUBLARR_TARGET_LANGUAGE` | ISO 639-1 code of the target translation language |
+| Source Language Name | `English` | `SUBLARR_SOURCE_LANGUAGE_NAME` | Human-readable source language name (used in LLM prompts) |
+| Target Language Name | `German` | `SUBLARR_TARGET_LANGUAGE_NAME` | Human-readable target language name (used in LLM prompts) |
+
+## LLM Backend Settings
+
+| Setting | Default | Env Variable | Description |
+|---------|---------|--------------|-------------|
+| Ollama URL | `http://localhost:11434` | `SUBLARR_OLLAMA_URL` | Ollama base URL — infrastructure endpoint, set in `.env` |
+| Ollama Model | `qwen2.5:14b-instruct` | `SUBLARR_OLLAMA_MODEL` | Model name for translation |
+| Prompt Template | _(empty)_ | `SUBLARR_PROMPT_TEMPLATE` | Custom prompt template. Empty = auto-generated from language names |
+| Batch Size | `15` | `SUBLARR_BATCH_SIZE` | Number of subtitle cues sent per LLM request |
+| Request Timeout | `90` | `SUBLARR_REQUEST_TIMEOUT` | LLM request timeout in seconds |
+| Temperature | `0.3` | `SUBLARR_TEMPERATURE` | LLM sampling temperature. Lower = more consistent, higher = more creative |
+| Max Retries | `3` | `SUBLARR_MAX_RETRIES` | Maximum retry attempts on LLM failure before giving up |
+
+> [!TIP]
+> For the best anime subtitle quality, use the custom fine-tuned model: `hf.co/Sublarr/anime-translator-v6-GGUF:Q4_K_M` (see [HuggingFace](https://huggingface.co/Sublarr)).
+
+## Worker & Performance
+
+| Setting | Default | Env Variable | Description |
+|---------|---------|--------------|-------------|
+| Translation Max Workers | `4` | `SUBLARR_TRANSLATION_MAX_WORKERS` | Parallel worker threads in the job queue thread pool. Increase for higher throughput; decrease on memory-constrained systems |
+
+> [!NOTE]
+> The `translation_max_workers` setting applies to the in-process `MemoryJobQueue`. With Redis+RQ, scale workers via `docker compose ... --scale rq-worker=N` instead.
+
+## Episode Context
+
+| Setting | Default | Env Variable | Description |
+|---------|---------|--------------|-------------|
+| Use Episode Context | `false` | `SUBLARR_TRANSLATION_USE_EPISODE_CONTEXT` | Include series/episode metadata in the translation prompt for improved consistency |
+| Context Episodes | `1` | `SUBLARR_TRANSLATION_CONTEXT_EPISODES` | Number of surrounding episodes to include as context |
+| Series Glossary Auto | `false` | `SUBLARR_TRANSLATION_SERIES_GLOSSARY_AUTO` | Automatically generate and inject a per-series glossary into translation prompts |
+
+> [!TIP]
+> Enable episode context for long-running series where character names and terminology must stay consistent across episodes. This increases prompt size and may slow down translation slightly.
 
 ### Translation Backends
 

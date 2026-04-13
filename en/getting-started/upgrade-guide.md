@@ -2,12 +2,50 @@
 title: Upgrade Guide
 description: Upgrading Sublarr between versions — migration notes and breaking changes
 published: true
-date: 2026-03-14
+date: 2026-04-13
 ---
 
 # Migration Guide
 
-## Current Version: 0.37.0-beta
+## Current Version: 0.51.3-beta
+
+---
+
+## Upgrading to 0.51.x
+
+### v0.51.3-beta — Security Hardening & V1 Readiness
+
+No breaking changes. Key improvements:
+
+- **OpenAPI security declarations** added to all 286 API routes
+- **Circuit breaker cooldown** increased from 60 to 300 seconds (reduces probe frequency against downed providers)
+- **Auth errors propagate to circuit breaker** — HTTP 401/403 from providers now count toward the failure threshold. If your API key expires, the circuit opens after 5 failures instead of retrying indefinitely
+- **Firefox subtitle rendering** fixed with WebVTT fallback via native `<track>` element (Chrome continues using SubtitleOctopus)
+- **3600+ tests** (737 new) covering translator, translation backends, and repositories
+- **SECURITY.md** and **MIGRATION.md** added for V1 release preparation
+- **Locust load testing** configuration added
+
+#### Changed Defaults
+
+| Setting | Old Default | New Default | Notes |
+|---------|-------------|-------------|-------|
+| `circuit_breaker_cooldown_seconds` | `60` | `300` | Reduces probe frequency, lowers ban risk |
+| `subtitle_trash_retention_days` | `7` | `30` | Longer recovery window for deleted subtitles |
+
+> [!WARNING]
+> If you relied on the 60-second circuit breaker cooldown for fast provider recovery, you may want to explicitly set `SUBLARR_CIRCUIT_BREAKER_COOLDOWN_SECONDS=60` in your `.env` file.
+
+### v0.51.2-beta — Version Bump
+
+Maintenance release with version synchronization.
+
+### v0.51.0-beta — Feature Gate & Quality
+
+- **Translation feature gate** — translation must now be explicitly enabled via `SUBLARR_TRANSLATION_ENABLED=true` (defaults to `false`). Existing users with translation configured will need to enable this setting
+- New settings added: interface preferences, quiet hours, disk monitoring, auto backup, scan filters, download limits, per-language score thresholds, session security
+
+> [!NOTE]
+> If you were using translation features before v0.51.0, you need to explicitly enable translation after upgrading: go to **Settings → Translation** and toggle **Translation Enabled** to on, or set `SUBLARR_TRANSLATION_ENABLED=true` in your environment.
 
 ---
 

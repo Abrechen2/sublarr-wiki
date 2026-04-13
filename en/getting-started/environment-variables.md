@@ -2,7 +2,7 @@
 title: Environment Variables
 description: All SUBLARR_* environment variables and configuration options
 published: true
-date: 2026-03-14
+date: 2026-04-13
 ---
 
 # Configuration Reference
@@ -72,6 +72,7 @@ whether a setting is also exposed in the Settings UI (and therefore does
 
 | Variable | Default | UI | Description |
 |---|---|:---:|---|
+| `SUBLARR_TRANSLATION_ENABLED` | `false` | ✅ | Master switch — must be `true` before any translation occurs |
 | `SUBLARR_OLLAMA_URL` | `http://localhost:11434` | — | Ollama base URL — set in `.env` (infrastructure endpoint) |
 | `SUBLARR_OLLAMA_MODEL` | `qwen2.5:14b-instruct` | — | Default model for translation. Recommended: `hf.co/Sublarr/anime-translator-v6-GGUF:Q4_K_M` (custom fine-tuned, EN→DE anime subtitles — see [huggingface.co/Sublarr](https://huggingface.co/Sublarr)) |
 | `SUBLARR_SOURCE_LANGUAGE` | `en` | ✅ | Source subtitle language code |
@@ -84,6 +85,9 @@ whether a setting is also exposed in the Settings UI (and therefore does
 | `SUBLARR_MAX_RETRIES` | `3` | — | Max retries on LLM failure |
 | `SUBLARR_PROMPT_TEMPLATE` | *(empty)* | — | Custom prompt template. Empty = auto-generated |
 | `SUBLARR_TRANSLATION_MAX_WORKERS` | `4` | — | Parallel worker threads in the job queue thread pool. Increase for higher translation throughput; decrease on memory-constrained systems. Applies to `MemoryJobQueue` (in-process); with Redis+RQ, scale workers via `--scale rq-worker=N` instead |
+| `SUBLARR_TRANSLATION_USE_EPISODE_CONTEXT` | `false` | ✅ | Include series/episode metadata in translation prompts for improved consistency |
+| `SUBLARR_TRANSLATION_CONTEXT_EPISODES` | `1` | ✅ | Number of surrounding episodes to include as context |
+| `SUBLARR_TRANSLATION_SERIES_GLOSSARY_AUTO` | `false` | ✅ | Auto-generate and inject a per-series glossary into translation prompts |
 
 ---
 
@@ -115,7 +119,16 @@ stored encrypted in the database. Environment variables override UI values if se
 | `SUBLARR_JIMAKU_API_KEY` | ✅ | [Jimaku](https://jimaku.cc/) |
 | `SUBLARR_SUBDL_API_KEY` | ✅ | [SubDL](https://subdl.com/) |
 
+| `SUBLARR_SUBSDUMP_URL` | `http://192.168.178.195` | ✅ | SubsDump instance base URL |
+| `SUBLARR_SUBSDUMP_API_KEY` | *(empty)* | ✅ | SubsDump API key (optional) |
+
 AnimeTosho, Gestdown, Podnapisi, and Titrari work without an API key.
+
+### Provider Rate Limiting
+
+| Variable | Default | UI | Description |
+|---|---|:---:|---|
+| `SUBLARR_PROVIDER_RATE_LIMIT_THROTTLE_MINUTES` | `60` | — | Extended throttle duration (minutes) after HTTP 429 from a provider |
 
 ---
 
@@ -188,7 +201,7 @@ are available there; the tuning knobs below remain env-only.
 | `SUBLARR_WANTED_BACKOFF_CAP_HOURS` | `168` | — | Max backoff cap (7 days) |
 | `SUBLARR_USE_EMBEDDED_SUBS` | `true` | — | Check embedded subtitle streams in MKV files |
 | `SUBLARR_SCAN_METADATA_ENGINE` | `auto` | — | Metadata scan engine: `ffprobe`, `mediainfo`, or `auto` |
-| `SUBLARR_SCAN_METADATA_MAX_WORKERS` | `4` | — | Parallel workers for batch metadata scans |
+| `SUBLARR_SCAN_METADATA_MAX_WORKERS` | `2` | — | Parallel workers for batch metadata scans |
 | `SUBLARR_SCAN_YIELD_MS` | `0` | — | Sleep between series/movies (ms) during wanted scan to yield CPU to API threads. Default `0` (no yield). Try `5`–`10` on heavily loaded single-core systems |
 
 ---
@@ -252,7 +265,7 @@ Env-only — tuning knobs for provider failure handling.
 | Variable | Default | UI | Description |
 |---|---|:---:|---|
 | `SUBLARR_CIRCUIT_BREAKER_FAILURE_THRESHOLD` | `5` | — | Consecutive failures before opening circuit |
-| `SUBLARR_CIRCUIT_BREAKER_COOLDOWN_SECONDS` | `60` | — | Seconds in OPEN state before half-open probe |
+| `SUBLARR_CIRCUIT_BREAKER_COOLDOWN_SECONDS` | `300` | — | Seconds in OPEN state before half-open probe |
 | `SUBLARR_PROVIDER_AUTO_DISABLE_COOLDOWN_MINUTES` | `30` | — | Minutes before auto-disabled provider is re-enabled |
 
 ---
@@ -350,7 +363,7 @@ Configure in **Settings → Automation**.
 
 | Variable | Default | UI | Description |
 |---|---|:---:|---|
-| `SUBLARR_SUBTITLE_TRASH_RETENTION_DAYS` | `7` | ✅ | Days to keep trashed files before auto-purge. `0` = keep forever |
+| `SUBLARR_SUBTITLE_TRASH_RETENTION_DAYS` | `30` | ✅ | Days to keep trashed files before auto-purge. `0` = keep forever |
 
 ---
 
@@ -361,6 +374,18 @@ Configure in **Settings → Translation**.
 | Variable | Default | UI | Description |
 |---|---|:---:|---|
 | `SUBLARR_HI_REMOVAL_ENABLED` | `false` | ✅ | Strip hearing-impaired annotations from subtitles on download |
+| `SUBLARR_HI_PREFERENCE` | `include` | ✅ | HI subtitle handling: `include`, `prefer`, `exclude`, or `only` |
+| `SUBLARR_HI_INTERJECTIONS_LIST` | *(empty)* | — | Newline-separated custom HI interjection patterns. Empty = built-in list |
+
+---
+
+## Forced Subtitles
+
+Configure in **Settings → Profiles**.
+
+| Variable | Default | UI | Description |
+|---|---|:---:|---|
+| `SUBLARR_FORCED_PREFERENCE` | `include` | ✅ | Forced subtitle handling: `include`, `prefer`, `exclude`, or `only` |
 
 ---
 
@@ -370,8 +395,114 @@ Configure in **Settings → Translation**.
 
 | Variable | Default | UI | Description |
 |---|---|:---:|---|
-| `SUBLARR_CREDIT_THRESHOLD_SEC` | `90` | ✅ | Seconds from the end of a subtitle file treated as the credits region by the duration heuristic in credit detection. |
-| `SUBLARR_OP_WINDOW_SEC` | `300` | ✅ | Seconds from the start and end of a subtitle file that are considered the OP and ED detection windows. Reduce if short episodes produce false positives. |
+| `SUBLARR_CREDIT_THRESHOLD_SEC` | `90` | ✅ | Seconds from the end of a subtitle file treated as the credits region by the duration heuristic in credit detection |
+| `SUBLARR_OP_WINDOW_SEC` | `300` | ✅ | Seconds from the start and end of a subtitle file that are considered the OP and ED detection windows. Reduce if short episodes produce false positives |
+
+---
+
+## Subtitle File Naming
+
+Configure in **Settings → Media Management**.
+
+| Variable | Default | UI | Description |
+|---|---|:---:|---|
+| `SUBLARR_SUBTITLE_LANGUAGE_CODE_FORMAT` | `iso_639_1` | ✅ | Language code in filenames: `iso_639_1` (2-letter) or `iso_639_2` (3-letter) |
+| `SUBLARR_SUBTITLE_SUFFIX_SEPARATOR` | `dot` | ✅ | Separator between name parts: `dot`, `dash`, or `underscore` |
+| `SUBLARR_SUBTITLE_HI_SUFFIX` | `hi` | ✅ | Suffix for hearing-impaired subtitle files |
+| `SUBLARR_SUBTITLE_FORCED_SUFFIX` | `forced` | ✅ | Suffix for forced subtitle files |
+
+---
+
+## Scan Settings
+
+Configure in **Settings → Media Management**.
+
+| Variable | Default | UI | Description |
+|---|---|:---:|---|
+| `SUBLARR_SCAN_IGNORE_PATTERNS` | `[]` | ✅ | JSON array of glob patterns to exclude from scans |
+| `SUBLARR_SCAN_MIN_FILE_SIZE_MB` | `0.0` | ✅ | Skip media files smaller than this size (MB) |
+| `SUBLARR_SCAN_IGNORE_LANGUAGES` | `[]` | ✅ | JSON array of ISO 639-1 codes to skip during scan |
+| `SUBLARR_SCORE_THRESHOLD_PER_LANGUAGE` | `{}` | ✅ | JSON object of per-language minimum scores (e.g. `{"de": 80}`) |
+| `SUBLARR_SCAN_METADATA_ENGINE` | `auto` | — | Metadata engine: `ffprobe`, `mediainfo`, or `auto` |
+| `SUBLARR_SCAN_METADATA_MAX_WORKERS` | `2` | — | Parallel workers for batch metadata scans |
+
+---
+
+## Download Limits
+
+Configure in **Settings → Media Management**.
+
+| Variable | Default | UI | Description |
+|---|---|:---:|---|
+| `SUBLARR_MAX_CONCURRENT_PROVIDER_SEARCHES` | `3` | ✅ | Maximum simultaneous provider search requests |
+| `SUBLARR_MAX_SUBTITLE_FILE_SIZE_KB` | `2048` | ✅ | Reject subtitles larger than this (KB) |
+| `SUBLARR_DOWNLOAD_DELAY_BETWEEN_PROVIDERS_MS` | `0` | — | Delay between provider download attempts (ms) |
+| `SUBLARR_GESTDOWN_RETRY_DELAY_S` | `1.0` | — | Retry delay after HTTP 423 from Gestdown (seconds) |
+| `SUBLARR_FFMPEG_TIMEOUT` | `120` | — | Seconds before ffmpeg extraction is killed |
+
+---
+
+## Interface Preferences
+
+Configure in **Settings → General**.
+
+| Variable | Default | UI | Description |
+|---|---|:---:|---|
+| `SUBLARR_INTERFACE_LANGUAGE` | `en` | ✅ | UI language: `en` or `de` |
+| `SUBLARR_ITEMS_PER_PAGE` | `25` | ✅ | Items per page in list views |
+| `SUBLARR_DEFAULT_LIBRARY_VIEW` | `grid` | ✅ | Default library view: `grid` or `list` |
+| `SUBLARR_DEFAULT_LIBRARY_SORT` | `alpha` | ✅ | Default sort: `alpha`, `date`, or `score` |
+| `SUBLARR_DATETIME_FORMAT` | `relative` | ✅ | Timestamp display: `relative` or `absolute` |
+
+---
+
+## Quiet Hours
+
+Configure in **Settings → General**.
+
+| Variable | Default | UI | Description |
+|---|---|:---:|---|
+| `SUBLARR_QUIET_HOURS_ENABLED` | `false` | ✅ | Pause automated tasks during defined hours |
+| `SUBLARR_QUIET_HOURS_START` | `23:00` | ✅ | Start of quiet period (24h format) |
+| `SUBLARR_QUIET_HOURS_END` | `07:00` | ✅ | End of quiet period (24h format) |
+| `SUBLARR_QUIET_HOURS_TIMEZONE` | `UTC` | ✅ | Timezone (e.g. `Europe/Berlin`) |
+
+---
+
+## Auto Backup
+
+Configure in **Settings → General**.
+
+| Variable | Default | UI | Description |
+|---|---|:---:|---|
+| `SUBLARR_BACKUP_AUTO_ENABLED` | `false` | ✅ | Enable scheduled automatic database backups |
+| `SUBLARR_BACKUP_AUTO_INTERVAL_HOURS` | `24` | ✅ | Hours between automatic backups |
+| `SUBLARR_BACKUP_AUTO_ON_STARTUP` | `false` | ✅ | Create a backup on container startup |
+| `SUBLARR_BACKUP_NOTIFY_ON_FAILURE` | `true` | ✅ | Notify if a scheduled backup fails |
+
+---
+
+## Disk Monitoring
+
+Configure in **Settings → General**.
+
+| Variable | Default | UI | Description |
+|---|---|:---:|---|
+| `SUBLARR_DISK_WARNING_THRESHOLD_PERCENT` | `90` | ✅ | Disk usage percentage that triggers a warning |
+| `SUBLARR_DISK_WARNING_NOTIFY` | `true` | ✅ | Send notification when threshold is exceeded |
+
+---
+
+## Security
+
+Configure in **Settings → General → Authentication**.
+
+| Variable | Default | UI | Description |
+|---|---|:---:|---|
+| `SUBLARR_SESSION_TIMEOUT_MINUTES` | `0` | ✅ | Inactivity timeout (minutes). `0` = no timeout |
+| `SUBLARR_MAX_LOGIN_ATTEMPTS` | `20` | ✅ | Failed attempts before lockout |
+| `SUBLARR_LOCKOUT_DURATION_MINUTES` | `60` | ✅ | Lockout duration (minutes) after max attempts exceeded |
+| `SUBLARR_ALLOWED_IP_RANGES` | *(empty)* | ✅ | Comma-separated CIDR ranges. Empty = allow all |
 
 ---
 

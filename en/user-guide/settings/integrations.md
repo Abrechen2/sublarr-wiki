@@ -2,7 +2,7 @@
 title: Settings — Integrations
 description: Sonarr, Radarr, Jellyfin, and Emby integration settings
 published: true
-date: 2026-03-14
+date: 2026-04-13
 ---
 
 # Settings — Integrations
@@ -67,10 +67,26 @@ SUBLARR_PATH_MAPPING=/data/media=/mnt/media;/data/anime=/mnt/anime
 2. URL: `http://sublarr:5765/api/v1/webhook/radarr`
 3. Events: On Import, On Upgrade
 
-```
+```env
 SUBLARR_RADARR_URL=http://radarr:7878
 SUBLARR_RADARR_API_KEY=your_api_key_here
 ```
+
+### Multi-Instance Setup
+
+| Setting | Default | Env Variable | Description |
+|---------|---------|--------------|-------------|
+| Radarr Instances JSON | _(empty)_ | `SUBLARR_RADARR_INSTANCES_JSON` | JSON array of multiple Radarr instances |
+
+```env
+SUBLARR_RADARR_INSTANCES_JSON=[
+  {"name": "Movies", "url": "http://radarr:7878", "api_key": "abc123"},
+  {"name": "Anime Movies", "url": "http://radarr-anime:7878", "api_key": "xyz789"}
+]
+```
+
+> [!NOTE]
+> The JSON format is the same as for Sonarr multi-instance setup. Each instance has `name`, `url`, `api_key`, and an optional `path_mapping` field.
 
 ---
 
@@ -116,3 +132,19 @@ SUBLARR_MEDIA_SERVERS_JSON=[
 ```
 
 Enable JSON-RPC in Kodi: **Settings → Services → Control → Allow programs on other systems to control Kodi**
+
+---
+
+## AniDB Integration
+
+AniDB ID resolution enables correct absolute episode numbering for anime series. Sublarr maps TVDB season/episode numbers to AniDB absolute episode numbers, which most fansub providers use.
+
+| Setting | Default | Env Variable | Description |
+|---------|---------|--------------|-------------|
+| Enabled | `true` | `SUBLARR_ANIDB_ENABLED` | Enable AniDB ID resolution for absolute anime episode ordering |
+| Cache TTL | `30` | `SUBLARR_ANIDB_CACHE_TTL_DAYS` | Days to cache TVDB → AniDB mappings before refreshing |
+| Custom Field Name | `anidb_id` | `SUBLARR_ANIDB_CUSTOM_FIELD_NAME` | Custom field name in Sonarr for AniDB ID storage |
+| Fallback to Mapping | `true` | `SUBLARR_ANIDB_FALLBACK_TO_MAPPING` | Use cached offline mapping when AniDB API is unreachable |
+
+> [!TIP]
+> AniDB integration uses a 4-tier resolution strategy: Sonarr custom field → AniDB API → TheTVDB mapping file → offline XML dump. The offline fallback ensures subtitle matching works even when external APIs are down.

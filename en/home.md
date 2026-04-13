@@ -2,14 +2,14 @@
 title: Sublarr Wiki
 description: Documentation for Sublarr — self-hosted subtitle manager for anime & media
 published: true
-date: 2026-04-01
+date: 2026-04-13
 ---
 
 # Sublarr
 
 Self-hosted subtitle manager for anime & media libraries. Finds the best subtitles, translates them locally with a custom LLM model, and keeps everything in sync with your *arr stack.
 
-> **Latest:** v0.47.3-beta — Movie subtitle management, 74 language options, full DE/EN UI localization, redesigned cleanup page with 5 fixed operations and dry-run file previews, persistent settings navigation, post-processing UI, and subtitle presence pills on the Wanted page. (see [Upgrade Guide](/getting-started/upgrade-guide))  <!-- Update at each release — source of truth: `backend/VERSION` -->
+> **Latest:** v0.51.3-beta — OpenAPI security on all 286 routes, 3600+ tests, circuit breaker auth propagation, Firefox WebVTT subtitle rendering fix, Locust load testing, SECURITY.md and MIGRATION.md for V1 readiness. (see [Upgrade Guide](/getting-started/upgrade-guide))  <!-- Update at each release — source of truth: `backend/VERSION` -->
 
 ---
 

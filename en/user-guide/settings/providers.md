@@ -2,7 +2,7 @@
 title: Settings — Providers
 description: Subtitle provider configuration, supported providers, and scoring algorithm
 published: true
-date: 2026-04-10
+date: 2026-04-13
 ---
 
 # Subtitle Provider System
@@ -183,6 +183,26 @@ Reads embedded subtitle tracks directly from video files in your library. Result
 **Requires API key:** No  
 **Languages:** Japanese → German/English (anime-specialized)  
 **Notes:** Self-hosted subtitle database for anime content. Requires a local SubsDump instance.
+
+**Configuration**
+```env
+SUBLARR_SUBSDUMP_URL=http://192.168.178.195
+SUBLARR_SUBSDUMP_API_KEY=your_api_key_here   # Optional — leave empty if not required
+```
+
+| Setting | Default | Env Variable | Description |
+|---------|---------|--------------|-------------|
+| SubsDump URL | `http://192.168.178.195` | `SUBLARR_SUBSDUMP_URL` | Base URL of your SubsDump instance |
+| SubsDump API Key | _(empty)_ | `SUBLARR_SUBSDUMP_API_KEY` | Optional API key for authenticated access |
+
+## Provider Rate Limiting
+
+| Setting | Default | Env Variable | Description |
+|---------|---------|--------------|-------------|
+| Rate Limit Throttle (minutes) | `60` | `SUBLARR_PROVIDER_RATE_LIMIT_THROTTLE_MINUTES` | Extended throttle duration after receiving an HTTP 429 (Too Many Requests) from a provider |
+
+> [!NOTE]
+> When a provider responds with HTTP 429, Sublarr stops sending requests to that provider for the configured throttle duration. This prevents ban escalation and respects the provider's rate limits.
 
 ## Anti-Captcha
 

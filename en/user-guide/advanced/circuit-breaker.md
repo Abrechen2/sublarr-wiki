@@ -2,7 +2,7 @@
 title: Circuit Breaker
 description: How Sublarr protects against failing subtitle providers
 published: true
-date: 2026-04-03
+date: 2026-04-13
 ---
 
 # Circuit Breaker
@@ -17,7 +17,7 @@ cascade timeouts from blocking your entire download queue.
 ```
 CLOSED ──(5 consecutive failures)──► OPEN
   ▲                                    │
-  │                              (60 s cooldown)
+  │                              (300 s cooldown)
   │                                    ▼
   └────(probe succeeds)────── HALF_OPEN
                 probe fails ──► OPEN
@@ -34,7 +34,7 @@ CLOSED ──(5 consecutive failures)──► OPEN
 | From | To | Trigger |
 |---|---|---|
 | CLOSED | OPEN | 5 consecutive failures |
-| OPEN | HALF_OPEN | 60 seconds have elapsed since last failure |
+| OPEN | HALF_OPEN | 300 seconds have elapsed since last failure |
 | HALF_OPEN | CLOSED | Probe call succeeded |
 | HALF_OPEN | OPEN | Probe call failed |
 | Any | CLOSED | Manual reset via API |
@@ -47,7 +47,10 @@ per-provider overrides.
 | Parameter | Default | Description |
 |---|---|---|
 | `failure_threshold` | `5` | Consecutive failures before opening |
-| `cooldown_seconds` | `60` | Seconds to wait before allowing a probe |
+| `cooldown_seconds` | `300` | Seconds to wait before allowing a probe |
+
+> [!NOTE]
+> The cooldown was increased from 60 to 300 seconds in v0.51.3-beta to reduce probe frequency against providers that are genuinely down, lowering the risk of IP bans from repeated retries.
 
 ## Persistence
 
@@ -94,6 +97,10 @@ Providers are auto-disabled (circuit opened) when:
 - They return repeated HTTP errors (4xx/5xx)
 - They time out repeatedly
 - Their response cannot be parsed
+- Authentication errors (401/403) are returned repeatedly
+
+> [!NOTE]
+> **v0.51.3 change:** Authentication errors (HTTP 401, 403) now propagate to the circuit breaker. Previously, auth errors were silently retried without counting toward the failure threshold. If a provider's API key expires or is revoked, the circuit will now open after 5 consecutive auth failures, preventing pointless retries. Fix the credentials and reset the provider to resume.
 
 A single failure does not open the circuit. Five consecutive failures are
 required (default threshold). A single success resets the failure counter.
