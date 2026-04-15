@@ -7,7 +7,7 @@ Git-synced content mirror from Wiki.js. Wiki.js syncs FROM this Git repo every 5
 | Component | Details |
 |-----------|---------|
 | CMS | Wiki.js with Git sync (5-minute interval) |
-| Hosting | Proxmox CT 124 (192.168.178.142) on pve-node1 |
+| Hosting | Proxmox CT 131 (`ct131-sublarr-wiki`) on pve-node1, DMZ VLAN 20 (192.168.20.131) |
 | Live URL | https://wiki.sublarr.de (Cloudflare Tunnel) |
 | Reverse Proxy | nginx (`nginx-wiki.conf`) → Wiki.js on port 3000 |
 

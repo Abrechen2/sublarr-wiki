@@ -2,16 +2,40 @@
 title: Upgrade Guide
 description: Upgrading Sublarr between versions — migration notes and breaking changes
 published: true
-date: 2026-04-13
+date: 2026-04-15
 ---
 
 # Migration Guide
 
-## Current Version: 0.51.3-beta
+## Current Version: 0.51.17-beta
 
 ---
 
 ## Upgrading to 0.51.x
+
+### v0.51.12 → v0.51.17 — Auto-sync hardening & webhook pipeline verification (2026-04-15)
+
+Sequential patch ship in a single day. Pick up `v0.51.17-beta` — earlier versions have known issues already fixed upstream.
+
+No breaking changes. Key improvements:
+
+- **`ffsubsync` bundled in the Docker image (0.51.12)** — the `auto_sync_after_download` setting finally does something. Webhook-driven downloads from Sonarr / Radarr align `.de.ass` / `.en.ass` sidecars to the video timeline automatically.
+- **Auto-sync path-existence guard (0.51.13)** — `_try_auto_sync` now `os.path.isfile`-checks both the subtitle and video path and logs a clean `WARNING` instead of raising from `shutil.copy2` when the pipeline reports a path the file isn't actually at.
+- **`save_subtitle` return-path contract enforced (0.51.14)** — when a provider declares ASS but the content is actually SRT (opensubtitles does this frequently), `download_manager.save_subtitle` rewrites the extension and returns the corrected path. All seven internal call sites now capture that return, so auto-sync, NFO export, and API responses all point at the file that actually ended up on disk. A new `WARNING save_subtitle: rewrote extension X → Y` telemetry line surfaces every mismatch.
+- **`setuptools<81` pinned (0.51.15 / 0.51.16)** — `ffsubsync`'s `webrtcvad` voice-activity-detection fallback imports the deprecated `pkg_resources` shim that `setuptools 81` finally removed. The upper bound keeps it importable so videos without embedded subtitle streams still sync.
+- **`old_backups` manual rule-run (0.51.17)** — `POST /api/v1/cleanup/rules/<id>/run` on an `old_backups` rule no longer crashes with `DatatypeMismatch: column "files_deleted" is of type integer but expression is of type text[]`. The scheduler path already did the right thing; the manual endpoint now matches it.
+- **Post-extract sidecar cleanup by language profile** — after batch-probe extracts subtitles, any sidecar whose language is outside the item's profile (and not `und`) is moved to the same trash folder the remux pipeline uses. Never hard-delete.
+- **Scheduled cleanup rules** — rules with `schedule='weekly'` or `'daily'` are actually picked up by the cleanup scheduler. Rules with `schedule='manual'` are still skipped, as designed.
+- **Jimaku** — if `SUBLARR_JIMAKU_API_KEY` is not set, remove `jimaku` from `providers_enabled` to avoid HTTP 401 / circuit-breaker flapping on every search.
+
+#### Changed Defaults
+
+None.
+
+#### Post-upgrade recommendations
+
+- Decide whether to keep the `Orphan Files` and `Language Filter` cleanup rules on `manual`. The `Orphan Files` scan found thousands of orphans on one large library — many are rename-drift artefacts and harmless duplicates, not real garbage. Use `POST /api/v1/cleanup/rules/<id>/preview` to inspect before enabling.
+- For libraries with thousands of sidecars, the synchronous `POST /api/v1/cleanup/rules/<id>/run` for `format_upgrade` can exceed gunicorn's 300 s worker timeout. The weekly scheduler runs the same rule in a background thread and is unaffected — prefer scheduling over manual runs.
 
 ### v0.51.3-beta — Security Hardening & V1 Readiness
 

@@ -511,4 +511,4 @@ Der interne Service läuft ohne TLS auf Port 5765. Im internen Netzwerk könnte 
 | 7 | M2 — DB-Fehler aus API-Logs filtern | Niedrig |
 | 8 | L3 — opensubtitles_username maskieren | Sehr niedrig |
 4. **Cloudflare Transform Rules:** Doppelten `Permissions-Policy` Header entfernen (falls Cloudflare ihn zusätzlich setzt)
-5. **nginx-wiki.conf deployen:** Nach CT 124 unter `/etc/nginx/sites-available/wiki.sublarr.de` einspielen
+5. **nginx-wiki.conf deployen:** Nach CT 131 (`sublarr-wiki`, DMZ VLAN 20, 192.168.20.131) unter `/etc/nginx/sites-available/wiki.sublarr.de` einspielen — Zugriff über pve-node1 via `pct push 131 …`
