@@ -61,9 +61,15 @@ Selbstgehosteter Untertitel-Manager für Anime- und Medienbibliotheken. Findet d
 
 ---
 
+## Community
+
+- 💬 [Discord](https://discord.gg/WjatsKzHXz) — Live-Chat, Installations-Hilfe, Beta-Testing
+- 🔴 [Reddit /r/Sublarr](https://www.reddit.com/r/Sublarr/) — Ankündigungen, Showcases, Diskussionen
+- 🐙 [GitHub Issues](https://github.com/Abrechen2/sublarr/issues) — Bug-Reports & Feature-Wünsche
+
 ## Links
 
-- [sublarr.app](https://sublarr.app) — Landing Page
+- [sublarr.de](https://sublarr.de) — Landing Page
 - [GitHub](https://github.com/Abrechen2/sublarr) — Quellcode & Releases
 - [HuggingFace](https://huggingface.co/Sublarr) — Eigenes Anime-Übersetzungsmodell
 - [Spenden](https://www.paypal.com/donate?hosted_button_id=GLXYTD3FV9Y78) — Entwicklung unterstützen
