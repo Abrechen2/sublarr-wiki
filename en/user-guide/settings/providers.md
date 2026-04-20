@@ -34,7 +34,12 @@ Sublarr uses a modular provider system to search and download subtitles from mul
 
 ## Existing Providers
 
-Sublarr includes 22 built-in providers. *(Updated v0.47.3-beta)*
+Sublarr includes **29 built-in providers** *(updated v0.70.0-beta)*:
+
+- **16 native providers** implemented directly against each source's API: AnimeTosho, OpenSubtitles, Jimaku, Subdl, SubsDump, Gestdown, Podnapisi, Kitsunekko, Napisy24, Titrari, LegendasDivx, Subscene, Addic7ed, TVsubtitles, TurkceAltyazi, Subsource, Subf2m, YifySubtitles, Zimuku, BetaSeries, Titlovi, Embedded.
+- **7 Subliminal-flavor providers** (new in v0.64.0–0.65.0-beta) wrapping the vendored Subliminal 2.2.0 library through `SubliminalProviderAdapter`: `opensubtitles_subliminal`, `addic7ed_subliminal`, `gestdown_subliminal`, `napiprojekt_subliminal`, `opensubtitlescom_subliminal`, `podnapisi_subliminal`, `tvsubtitles_subliminal`. These give access to Subliminal's community-hardened implementations as an alternative to Sublarr's native adapters.
+
+Each provider can be enabled, disabled, or prioritized independently in Settings → Providers. The dashboard "Provider Health" widget shows each provider's recent success rate.
 
 ### 1. AnimeTosho
 

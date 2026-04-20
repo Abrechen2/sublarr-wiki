@@ -10,6 +10,34 @@ date: 2026-04-13
 > [!NOTE]
 > Translation quality varies by model and language pair. For anime (Japanese → German), models like `qwen2.5:14b-instruct` work well. Test on a few episodes before running batch translations.
 
+## Available Backends (v0.70.0-beta — Lingarr parity)
+
+Sublarr supports **12 translation backends**. Configure each in **Settings → Translation**; the pipeline picks the active one per translation job. Cost tracking, live queue dashboard, per-backend concurrency control, and context-windowing (lookback/lookahead cues for coherence) are shared across all backends.
+
+**LLM backends** (token-priced):
+
+| Backend | Endpoint | Default Model | Price (per 1M tokens) |
+|---------|----------|---------------|-----------------------|
+| Ollama | local | `qwen2.5:14b-instruct` | free |
+| OpenAI-Compatible | any | user-chosen | varies |
+| Anthropic Claude | `api.anthropic.com` | `claude-3-5-sonnet-20241022` | $3.00 / $15.00 |
+| Google Gemini | `generativelanguage.googleapis.com` | `gemini-1.5-flash` | $0.075 / $0.30 |
+| DeepSeek | `api.deepseek.com` | `deepseek-chat` | $0.27 / $1.10 |
+| Mistral | `api.mistral.ai` | `mistral-large-latest` | $2.00 / $6.00 |
+| OpenAI ChatGPT | `api.openai.com` | `gpt-4o-mini` | $0.15 / $0.60 |
+
+**Character-priced backends:**
+
+| Backend | Default Price (per 1M chars) |
+|---------|------------------------------|
+| DeepL | $20.00 (Free API: $0) |
+| Google Cloud Translation | $20.00 |
+| LibreTranslate | self-hosted = free |
+| Azure Translator | $10.00 |
+| MyMemory | free tier with optional email |
+
+The Queue Dashboard in Settings → Translation shows live job progress, recent completions, backend stats, and costs. Every job writes an audit row to `translation_events` for long-term cost analysis.
+
 ## Feature Gate
 
 Translation must be explicitly enabled before any translation jobs can run.

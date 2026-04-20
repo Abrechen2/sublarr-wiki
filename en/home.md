@@ -9,7 +9,7 @@ date: 2026-04-15
 
 Self-hosted subtitle manager for anime & media libraries. Finds the best subtitles, translates them locally with a custom LLM model, and keeps everything in sync with your *arr stack.
 
-> **Latest:** v0.51.17-beta — Sonarr/Radarr webhooks drive the full download-translate-extract-sync pipeline end-to-end, `ffsubsync` bundled for automatic subtitle-to-video alignment, post-extract sidecar cleanup by language profile, scheduled cleanup rules (orphan DB / old backups / format upgrade), and the save-subtitle return-path contract is now enforced so auto-sync always targets the real on-disk file. (see [Upgrade Guide](/getting-started/upgrade-guide))  <!-- Update at each release — source of truth: `backend/VERSION` -->
+> **Latest:** v0.70.0-beta — **Plan A + Plan B complete.** Translation platform reaches Lingarr parity (12 backends: Ollama, OpenAI-Compat, Claude, Gemini, DeepSeek, Mistral, ChatGPT, DeepL, Google, LibreTranslate, Azure Translator, MyMemory) with live queue dashboard + cost tracking + concurrency + context-windowing. Subtitle delivery reaches Bazarr parity: **29 providers** (16 native + 7 Subliminal-flavor via adapter), **named-class scoring penalty pipeline** (15 configurable rules), **subtitle repair** on every save path (BOM / newlines / decimals / overlaps / encoding), **embedded track-selection** by language+forced+HI flags, **post-processing pipeline** with 8 ops + opt-in shell escape, **multi-engine sync orchestrator** with fallback chain + audit trail, **granular blacklist** by file-hash. (see [Upgrade Guide](/getting-started/upgrade-guide))  <!-- Update at each release — source of truth: `backend/VERSION` -->
 
 ---
 
