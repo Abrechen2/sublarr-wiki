@@ -41,6 +41,41 @@ Sublarr includes **29 built-in providers** *(updated v0.70.0-beta)*:
 
 Each provider can be enabled, disabled, or prioritized independently in Settings → Providers. The dashboard "Provider Health" widget shows each provider's recent success rate.
 
+## New in v0.70.0-beta — Matching Quality Features
+
+### Named-Class Scoring Penalty Pipeline (15 rules)
+
+In addition to the legacy weight-map `compute_score`, a **named-class penalty pipeline** with 15 configurable rules runs on every subtitle candidate. Edit weights in **Settings → Scoring → Penalty Rules**. Ten rules port existing Sublarr behaviour (release-group match, source match, resolution/codec match, HI preference, forced preference, ASS format bonus); five new opt-in Bazarr-equivalent rules ship at weight 0 so they only activate when an operator turns them on: loose release-group substring, source-hierarchy penalty, year off-by-one tolerance, codec-upgrade mismatch, and machine-translation penalty. Query all rules via `GET /api/v1/scoring/penalty-rules`.
+
+### Subtitle Repair on Every Save Path
+
+Every subtitle that lands on disk — whether from a provider download, an embedded track extracted by `mkvextract`, or a post-translate write — runs through `backend/subtitle_repair.py`. Five defect classes are handled automatically:
+
+- UTF-8 BOM at file start (stripped)
+- Wrong newline encoding (CRLF-CRLF, lone CR → normalized to LF)
+- Invalid millisecond decimals in SRT timestamps (`00:00:01,4` → `00:00:01,400`)
+- Overlapping cues (earlier cue's end clamped to next start minus 1 ms; dropped if clamp produces zero duration)
+- Encoding mis-detection (Windows-1252 bytes labeled UTF-8 — recovered via `chardet` fallback)
+
+Opt out with `enable_subtitle_repair=False` in Settings → General.
+
+### Embedded-Track Selection
+
+The embedded-subtitle provider now ranks tracks by `(language, forced, HI)` flags:
+
+- Forced query prefers forced tracks: `+15` bonus, `-5` mismatch penalty
+- HI-preferred query boosts SDH/CC tracks by `+10`
+- HI-excluded query penalises them with `-999` (effectively killing them)
+
+### Granular Blacklist
+
+The blacklist now supports two retry-suppression dimensions:
+
+- Legacy per-`(provider, subtitle_id)` — "never retry subtitle X from provider Y"
+- New per-`(provider, file_hash)` — "never retry ANY subtitle with hash H from provider Y", catches re-uploaded duplicates
+
+The `file_hash` column is populated automatically when providers return a hash; the Blacklist page shows it as a truncated code block with full-hash tooltip.
+
 ### 1. AnimeTosho
 
 **Best for**: Fansub ASS subtitles from release groups

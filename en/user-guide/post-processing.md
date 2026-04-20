@@ -79,3 +79,64 @@ curl -s -X POST https://discord.com/api/webhooks/YOUR_ID/YOUR_TOKEN \
 **Timeout warning in logs**
 - Your command exceeds 60 seconds. Move long-running work to a background
   job and have the post-processing command only trigger it.
+
+---
+
+## Curated-Ops Pipeline (v0.69.0-beta+)
+
+As of v0.69.0-beta a new **curated-ops pipeline** runs alongside the legacy
+single-command mechanism above. It fires on three triggers and ships with
+eight built-in ops. Configure under **Settings → Post-Processing**.
+
+### Triggers
+
+| Trigger | Fires when |
+|---------|------------|
+| `after_download` | A subtitle has been downloaded + repaired + saved |
+| `after_translate` | A subtitle translation pass has finished writing output |
+| `after_sync` | `ffsubsync` / `alass` finished aligning a subtitle to the video |
+
+Each trigger has its own ordered list of op_ids. Ops run sequentially on a
+dedicated 2-worker thread pool so request handlers are never blocked.
+
+### Built-In Ops (8)
+
+**Text ops** — fix the file on disk:
+
+- `strip_html` — remove `<i>`, `<b>`, `<font>`, `<br>` tags
+- `remove_bom` — strip UTF-8 BOM from file start
+- `convert_encoding` — re-encode to UTF-8 (auto-detects source via chardet)
+
+**HTTP ops** — notify other services:
+
+- `webhook` — POST to a URL with `{subtitle_path}` / `{video_path}` / `{lang}` / `{score}` substitution, SSRF-protected via `validate_service_url` (blocks `file://`, metadata IPs, link-local)
+- `discord_notify` — send a Discord webhook message
+
+**Media server refresh**:
+
+- `plex_refresh` — trigger a Plex library scan via `X-Plex-Token`
+- `emby_refresh` — trigger an Emby scan
+- `jellyfin_refresh` — trigger a Jellyfin scan
+
+### Shell Escape Hatch (opt-in)
+
+Set the environment variable `SUBLARR_ALLOW_SHELL_SCRIPTS=true` in your
+`docker-compose.yml` to enable a shell-script op. It uses `shlex.quote` for
+every substituted value, `subprocess.run(shell=False, args=shlex.split(…))`,
+a 30-second timeout, and a PATH-only restricted env. stdout + stderr are
+captured to the `post_processing_runs` audit table. This path exists for
+operators who explicitly want it; the curated ops above cover the 90% case
+without the security surface.
+
+### Audit Trail
+
+Every pipeline run writes a row to `post_processing_runs`:
+
+- `trigger` — which trigger fired
+- `ops_executed` — JSON list with per-op `{op_id, ok, duration_ms, message}`
+- `duration_ms` — total pipeline time
+- `outcome` — `ok` / `partial_failure` / `failure`
+- `created_at` — timestamp
+
+Query recent runs via `GET /api/v1/post-processing/runs?limit=50` or view
+them in the Settings → Post-Processing tab's run history.
