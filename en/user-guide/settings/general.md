@@ -147,6 +147,15 @@ Sublarr automatically backs up its SQLite database to `/config/backups/` on a co
 
 Restore by replacing `/config/sublarr.db` and restarting the container. You can also use the built-in restore feature under **Settings → Backup → Restore**.
 
+## Setup Wizard
+
+| Setting | Default | Env Variable | Description |
+|---------|---------|--------------|-------------|
+| Wizard Completed | `false` | `SUBLARR_SETUP_WIZARD_COMPLETED` | Set to `true` once the first-run wizard has been finished. Persisted to the database; the UI then suppresses the wizard for all subsequent visits. Manually clearing this flag re-shows the wizard at next page load. |
+
+> [!NOTE]
+> You normally do not need to touch this — the wizard sets it automatically on completion. The flag exists primarily so that headless deployments which seed the database via `SUBLARR_*` env vars can mark the install as already configured.
+
 ## Analytics
 
 Sublarr does not collect analytics or telemetry. No data leaves your server.

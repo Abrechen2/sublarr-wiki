@@ -35,6 +35,25 @@ Backup-Backends für den Ausfall des Primär-Backends konfigurieren. Beispiel:
 2. Fallback 1: DeepL (Cloud, hohe Qualität)
 3. Fallback 2: LibreTranslate (selbstgehostetes Backup)
 
+## Übersetzungs-Kontextfenster *(Phase A4 — v0.66.0-beta)*
+
+LLM-Backends können bei jeder Übersetzung ein paar umliegende Zeilen als Kontext mitschicken, damit das Modell weiß, was vorher und nachher passiert. Verbessert Pronomen-Konsistenz und Tempus-Übereinstimmung — kostet aber etwas mehr Prompt-Budget.
+
+| Einstellung | Default | Umgebungsvariable | Beschreibung |
+|-------------|---------|-------------------|--------------|
+| Kontextfenster aktiv | `true` | `SUBLARR_TRANSLATION_CONTEXT_ENABLED` | Hauptschalter. Bei `false` enthält der Prompt nur die aktuelle Zeile. |
+| Lookback-Zeilen | `10` | `SUBLARR_TRANSLATION_CONTEXT_LOOKBACK_LINES` | Anzahl der *vorhergehenden* Cues, die als Kontext vorangestellt werden. Größere Werte helfen langen Dialogen, verschwenden bei kurzen Szenen aber Prompt-Budget. |
+| Lookahead-Zeilen | `5` | `SUBLARR_TRANSLATION_CONTEXT_LOOKAHEAD_LINES` | Anzahl der *folgenden* Cues, die als Kontext angehängt werden. Hilft dem Modell, mehrdeutige Pronomen vorauszuahnen, die erst in der nächsten Zeile aufgelöst werden. |
+
+> [!NOTE]
+> Nur LLM-Backends (Ollama, OpenAI-kompatibel, Claude, Gemini, ChatGPT, DeepSeek, Mistral) berücksichtigen diese Einstellung. Statistische Backends (DeepL, Google, LibreTranslate, MyMemory) übersetzen Cue für Cue und ignorieren das Kontextfenster.
+
+## Aufbewahrung von Übersetzungs-Events
+
+| Einstellung | Default | Umgebungsvariable | Beschreibung |
+|-------------|---------|-------------------|--------------|
+| Aufbewahrung (Tage) | `90` | `SUBLARR_TRANSLATION_EVENTS_RETENTION_DAYS` | Wie lange Einträge in der Tabelle `translation_events` aufbewahrt werden, bevor der Cron-Job `translation_events_cleanup` sie löscht. Die Translation-Activity-Timeline basiert auf dieser Tabelle; Werte über 365 vergrößern die Datenbank spürbar. |
+
 ## Ollama — Chat API (V9+)
 
 Sublarr v0.38.0 hat die Unterstützung für den Ollama-Endpunkt `/api/chat` zusätzlich zum

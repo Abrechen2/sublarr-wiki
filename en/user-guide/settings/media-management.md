@@ -142,6 +142,27 @@ Settings for embedded subtitle stream removal from MKV containers after extracti
 > [!WARNING]
 > Remux operations modify the original MKV file by removing subtitle streams. A backup is always created before modification. Set `remux_backup_retention_days` to `0` to keep backups indefinitely.
 
+## Embedded Subtitle Selection *(v0.71.0-beta)*
+
+Controls how embedded SDH/CC tracks are scored when an external provider has nothing to offer.
+
+| Setting | Default | Env Variable | Description |
+|---------|---------|--------------|-------------|
+| Allow Embedded SDH | `true` | `SUBLARR_EMBEDDED_ALLOW_SDH` | Whether SDH/closed-caption tracks are eligible for selection. Set to `false` to never use SDH tracks even when no other subtitle is available for the language. |
+| Embedded SDH Penalty | `5` | `SUBLARR_EMBEDDED_SDH_PENALTY` | Score penalty applied to SDH tracks during ranking. Higher values push them further down the candidate list. Only relevant when `embedded_allow_sdh=true`. |
+
+## Foreign-Track Cleanup *(v0.71.0-beta)*
+
+After Sublarr writes a sidecar in the target language, it can also remove unwanted *embedded* subtitle tracks from the MKV (e.g. a stray Spanish track on an English release). Off by default — opt in either globally or per series.
+
+| Setting | Default | Env Variable | Description |
+|---------|---------|--------------|-------------|
+| Cleanup Default | `false` | `SUBLARR_CLEANUP_FOREIGN_TRACKS_DEFAULT` | Global default for cleanup. When `false`, cleanup runs only for series that have an explicit override set. |
+| Keep `und` Tracks | `false` | `SUBLARR_CLEANUP_FOREIGN_TRACKS_KEEP_UND` | When `true`, undefined-language (`und`) tracks survive cleanup. Useful for badly tagged anime fansubs where the desired language is unflagged. |
+
+> [!TIP]
+> Per-series override lives at **Library → Series → ⋯ → Edit → Cleanup foreign subtitle tracks** with three states: inherit (use the global default), force on, force off. Effective state is shown as a coloured stripe in the series row.
+
 ## Import Behaviour
 
 - Sublarr **never deletes or modifies media files** — it only creates `.ass` and `.srt` sidecar files (except during remux, which removes embedded subtitle streams with backup)

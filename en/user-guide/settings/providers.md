@@ -34,9 +34,9 @@ Sublarr uses a modular provider system to search and download subtitles from mul
 
 ## Existing Providers
 
-Sublarr includes **29 built-in providers** *(updated v0.70.0-beta)*:
+Sublarr includes **29 built-in providers** *(updated v0.76.7-beta)*:
 
-- **16 native providers** implemented directly against each source's API: AnimeTosho, OpenSubtitles, Jimaku, Subdl, SubsDump, Gestdown, Podnapisi, Kitsunekko, Napisy24, Titrari, LegendasDivx, Subscene, Addic7ed, TVsubtitles, TurkceAltyazi, Subsource, Subf2m, YifySubtitles, Zimuku, BetaSeries, Titlovi, Embedded.
+- **22 native providers** implemented directly against each source's API: AnimeTosho, OpenSubtitles, Jimaku, Subdl, SubsDump, Gestdown, Podnapisi, Kitsunekko, Napisy24, Titrari, LegendasDivx, Subscene, Addic7ed, TVsubtitles, TurkceAltyazi, Subsource, Subf2m, YifySubtitles, Zimuku, BetaSeries, Titlovi, Embedded.
 - **7 Subliminal-flavor providers** (new in v0.64.0–0.65.0-beta) wrapping the vendored Subliminal 2.2.0 library through `SubliminalProviderAdapter`: `opensubtitles_subliminal`, `addic7ed_subliminal`, `gestdown_subliminal`, `napiprojekt_subliminal`, `opensubtitlescom_subliminal`, `podnapisi_subliminal`, `tvsubtitles_subliminal`. These give access to Subliminal's community-hardened implementations as an alternative to Sublarr's native adapters.
 
 Each provider can be enabled, disabled, or prioritized independently in Settings → Providers. The dashboard "Provider Health" widget shows each provider's recent success rate.
@@ -243,6 +243,19 @@ SUBLARR_SUBSDUMP_API_KEY=your_api_key_here   # Optional — leave empty if not r
 
 > [!NOTE]
 > When a provider responds with HTTP 429, Sublarr stops sending requests to that provider for the configured throttle duration. This prevents ban escalation and respects the provider's rate limits. Additionally, each provider has a circuit breaker (automatically pauses a provider that fails repeatedly — resets after 5 minutes) to prevent cascading failures.
+
+## API-Budget Manager *(v0.55.0-beta)*
+
+The budget manager paces searches against each provider's documented rate limits (per-second / per-hour / per-day) so the daily quota lasts the whole day instead of being burned in the first few ticks. Each provider's tier (`free`, `vip`, `vip+`) maps to a different limit set; the live state is visible at **Dashboard → API Budget** and via `GET /api/v1/system/budget`.
+
+| Setting | Default | Env Variable | Description |
+|---------|---------|--------------|-------------|
+| Budget Manager Enabled | `true` | `SUBLARR_PROVIDER_BUDGET_ENABLED` | Master gate. When `false`, the search coordinator reverts to pre-V1 behaviour (no budget accounting) and providers are called as fast as scheduling allows. |
+| Stretch Mode | `stretch` | `SUBLARR_PROVIDER_BUDGET_STRETCH_MODE` | Pacing strategy: `stretch` paces the day quota evenly across 24 h; `burst` uses raw window caps for the first N hours, then stretches the remainder; `off` is an alias for disabled. |
+| Burst Window (hours) | `6` | `SUBLARR_PROVIDER_BUDGET_BURST_WINDOW_HOURS` | Only used when `stretch_mode=burst`. Length of the front-loaded burst phase (UTC). After the window expires, the remaining day quota is paced across the remaining hours. |
+
+> [!TIP]
+> Use `burst` if you want fresh wanted-items to be searched aggressively in the morning and the rest of the day to coast. Stick with `stretch` (the default) if you prefer a steady, predictable trickle.
 
 ## Anti-Captcha
 

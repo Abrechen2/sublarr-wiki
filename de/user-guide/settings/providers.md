@@ -34,7 +34,12 @@ Sublarr verwendet ein modulares Provider-System, um Untertitel aus mehreren Quel
 
 ## Vorhandene Provider
 
-Sublarr enthält 22 eingebaute Provider. *(Aktualisiert v0.47.3-beta)*
+Sublarr enthält **29 eingebaute Provider** *(Aktualisiert v0.76.7-beta)*:
+
+- **22 native Provider**, die direkt gegen die jeweilige API umgesetzt sind: AnimeTosho, OpenSubtitles, Jimaku, Subdl, SubsDump, Gestdown, Podnapisi, Kitsunekko, Napisy24, Titrari, LegendasDivx, Subscene, Addic7ed, TVsubtitles, TurkceAltyazi, Subsource, Subf2m, YifySubtitles, Zimuku, BetaSeries, Titlovi, Embedded.
+- **7 Subliminal-Adapter** (neu in v0.64.0–0.65.0-beta), die die mitgelieferte Subliminal-2.2.0-Bibliothek über `SubliminalProviderAdapter` einbinden: `opensubtitles_subliminal`, `addic7ed_subliminal`, `gestdown_subliminal`, `napiprojekt_subliminal`, `opensubtitlescom_subliminal`, `podnapisi_subliminal`, `tvsubtitles_subliminal`. Diese bieten die von der Community gehärteten Implementierungen von Subliminal als Alternative zu Sublarrs nativen Adaptern.
+
+Jeder Provider lässt sich unter **Settings → Providers** unabhängig aktivieren, deaktivieren oder priorisieren. Das Dashboard-Widget "Provider Health" zeigt die jüngste Erfolgsrate pro Provider.
 
 ### 1. AnimeTosho
 
@@ -183,6 +188,19 @@ Liest eingebettete Untertitelspuren direkt aus den Videodateien der Bibliothek. 
 **API-Key erforderlich:** Nein
 **Sprachen:** Japanisch → Deutsch/Englisch (Anime-spezialisiert)
 **Hinweise:** Selbstgehostete Untertitel-Datenbank für Anime-Inhalte. Erfordert eine lokale SubsDump-Instanz.
+
+## API-Budget-Manager *(v0.55.0-beta)*
+
+Der Budget-Manager taktet Suchanfragen gegen die dokumentierten Rate-Limits jedes Providers (pro Sekunde / pro Stunde / pro Tag), damit das Tageskontingent über den ganzen Tag reicht statt in den ersten Ticks aufgebraucht zu werden. Der Tier jedes Providers (`free`, `vip`, `vip+`) entspricht einem eigenen Limit-Set; der Live-Zustand ist unter **Dashboard → API Budget** sowie über `GET /api/v1/system/budget` einsehbar.
+
+| Einstellung | Default | Umgebungsvariable | Beschreibung |
+|-------------|---------|-------------------|--------------|
+| Budget-Manager aktiv | `true` | `SUBLARR_PROVIDER_BUDGET_ENABLED` | Hauptschalter. Wenn `false`, fällt der Such-Koordinator auf das Pre-V1-Verhalten zurück (kein Budget-Tracking) und Provider werden so schnell wie möglich abgefragt. |
+| Stretch-Modus | `stretch` | `SUBLARR_PROVIDER_BUDGET_STRETCH_MODE` | Pacing-Strategie: `stretch` verteilt die Tagesquote gleichmäßig über 24 h; `burst` nutzt die rohen Window-Limits in den ersten N Stunden und streckt danach den Rest; `off` ist ein Alias für deaktiviert. |
+| Burst-Fenster (Stunden) | `6` | `SUBLARR_PROVIDER_BUDGET_BURST_WINDOW_HOURS` | Greift nur bei `stretch_mode=burst`. Länge der vorgezogenen Burst-Phase (UTC). Nach Ablauf wird die Restquote auf die Reststunden gestreckt. |
+
+> [!TIP]
+> Wähle `burst`, wenn neue Wanted-Items morgens aggressiv gesucht werden sollen und der Rest des Tages ruhig läuft. Belasse `stretch` (Default), wenn du einen gleichmäßigen, planbaren Suchstrom bevorzugst.
 
 ## Anti-Captcha
 

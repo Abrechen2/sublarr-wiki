@@ -93,6 +93,25 @@ Translation must be explicitly enabled before any translation jobs can run.
 > [!TIP]
 > Enable episode context for long-running series where character names and terminology must stay consistent across episodes. This increases prompt size and may slow down translation slightly.
 
+## Translation Context Window *(Phase A4 — v0.66.0-beta)*
+
+LLM backends can include a few neighbouring lines around each cue in the prompt so the model sees what comes before and after. Improves pronoun consistency and tense agreement, at the cost of slightly larger prompts.
+
+| Setting | Default | Env Variable | Description |
+|---------|---------|--------------|-------------|
+| Context Window Enabled | `true` | `SUBLARR_TRANSLATION_CONTEXT_ENABLED` | Master switch. When `false`, prompts contain only the current cue. |
+| Lookback Lines | `10` | `SUBLARR_TRANSLATION_CONTEXT_LOOKBACK_LINES` | Number of *previous* cues prepended as context. Larger values help long dialogues but also waste prompt budget on irrelevant lines for short scenes. |
+| Lookahead Lines | `5` | `SUBLARR_TRANSLATION_CONTEXT_LOOKAHEAD_LINES` | Number of *upcoming* cues appended as context. Helps the model anticipate ambiguous pronouns that get clarified in the next line. |
+
+> [!NOTE]
+> Only LLM-based backends (Ollama, OpenAI-compat, Claude, Gemini, ChatGPT, DeepSeek, Mistral) honour this setting. Statistical backends (DeepL, Google, LibreTranslate, MyMemory) translate cue-by-cue and ignore the context window entirely.
+
+## Translation Events Retention
+
+| Setting | Default | Env Variable | Description |
+|---------|---------|--------------|-------------|
+| Retention (days) | `90` | `SUBLARR_TRANSLATION_EVENTS_RETENTION_DAYS` | How long entries in the `translation_events` table are kept before the `translation_events_cleanup` cron job deletes them. The Translation Activity timeline relies on this table; values above 365 increase database size noticeably. |
+
 ### Translation Backends
 
 Sublarr supports multiple translation backends. Configure them in Settings > Translation Backends.

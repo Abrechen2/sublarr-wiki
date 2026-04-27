@@ -138,6 +138,15 @@ Sublarr sichert seine SQLite-Datenbank automatisch nach `/config/backups/` gemä
 
 Wiederherstellung durch Ersetzen von `/config/sublarr.db` und Neustart des Containers. Alternativ die eingebaute Restore-Funktion unter **Settings → Backup → Restore** nutzen.
 
+## Setup-Wizard
+
+| Einstellung | Default | Umgebungsvariable | Beschreibung |
+|-------------|---------|-------------------|--------------|
+| Wizard abgeschlossen | `false` | `SUBLARR_SETUP_WIZARD_COMPLETED` | Wird auf `true` gesetzt, sobald der Erst-Setup-Wizard abgeschlossen ist. Wird in der Datenbank gespeichert; die UI unterdrückt den Wizard danach bei allen weiteren Besuchen. Manuelles Zurücksetzen auf `false` blendet ihn beim nächsten Laden wieder ein. |
+
+> [!NOTE]
+> Du musst diese Einstellung normalerweise nicht ändern — der Wizard setzt sie nach Abschluss selbst. Sie existiert vor allem, damit Headless-Deployments, die ihre Konfiguration über `SUBLARR_*`-Umgebungsvariablen einseeden, die Installation als fertig markieren können.
+
 ## Analyse
 
 Sublarr sammelt keine Analysen oder Telemetriedaten. Keine Daten verlassen den Server.
