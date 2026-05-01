@@ -2,12 +2,25 @@
 title: API Reference
 description: Sublarr REST API — all endpoints under /api/v1/
 published: true
-date: 2026-03-14
+date: 2026-05-01
 ---
 
 # API Reference
 
 Sublarr exposes a RESTful API for all operations. All endpoints are prefixed with `/api/v1/`.
+
+## Live API Discovery (recommended)
+
+Every Sublarr instance ships its own interactive OpenAPI 3.0.3 reference, kept perfectly in sync with the running version:
+
+| Endpoint | Purpose |
+|---|---|
+| `GET /api/docs` | **Swagger UI** — browse + try-it-out (anonymous-readable; click "Authorize" to inject `X-Api-Key` for authenticated endpoints) |
+| `GET /api/v1/openapi.json` | **Raw OpenAPI 3.0.3 spec** — feed into Postman / Insomnia / Bruno or generate a TypeScript client via `openapi-typescript` / `orval` |
+
+Both endpoints are exempt from the X-Api-Key gate so you can discover the API surface without prior credentials. The "Try it out" flow then asks for the key once via the standard Authorize modal and reuses it for every subsequent call.
+
+The static reference below remains for offline browsing and quick lookup. **For accurate, version-specific details, prefer the live `/api/docs` UI on your instance** — at the moment of writing it covers 243 paths / 288 operations grouped by 27 domain tags, with reusable request/response schemas under `#/components/schemas/` (`ErrorResponse`, `WantedItem`, `LanguageProfile`, `CleanupRule`, `SubtitleSidecar`).
 
 ## Table of Contents
 
