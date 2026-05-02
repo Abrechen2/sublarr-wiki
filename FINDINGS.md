@@ -470,7 +470,7 @@ Der `Server`-Header enthält den Server-Namen. Kombiniert mit der Version aus `/
 
 #### L3 — `opensubtitles_username` im Config-Response ungemaskiert
 
-In `/api/v1/config` wird `opensubtitles_username: "abrechen2"` im Klartext zurückgegeben, während das Passwort maskiert ist. Der Benutzername ist für Account-Enumeration nutzbar.
+In `/api/v1/config` wird `opensubtitles_username: "<user>"` im Klartext zurückgegeben, während das Passwort maskiert ist. Der Benutzername ist für Account-Enumeration nutzbar.
 
 **Empfehlung:** Auch `opensubtitles_username` maskieren.
 

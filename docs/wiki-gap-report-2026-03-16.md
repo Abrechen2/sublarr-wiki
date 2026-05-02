@@ -604,7 +604,7 @@
 | `b509eca` | batch-probe + batch-extract async pipeline for embedded subtitles | ❌ |
 | `3d63c7c` | batch-probe extracts all embedded subtitle tracks (language-agnostic) | ❌ |
 | `8436e04` | batch metadata pre-scan for embedded subtitle detection | ✅ |
-| `2919a4d` | Merge pull request #16 from Abrechen2/feat/batch-extract-async | ✅ |
+| `2919a4d` | Merge pull request #16 from <maintainer>/feat/batch-extract-async | ✅ |
 | `e89e503` | non-blocking batch-extract with background thread and progress trackin | ❌ |
 | `d52c9da` | expose 35 settings in UI that were previously env-only (#14) | ✅ |
 | `9aba910` | Revert "feat: expose 35 settings in UI that were previously env-only" | ✅ |

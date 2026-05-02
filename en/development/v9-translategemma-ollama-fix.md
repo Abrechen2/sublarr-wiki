@@ -40,7 +40,7 @@ Das Modelfile muss das eingebettete TranslateGemma-Template **überschreiben** m
 gleichen simplen Passthrough-Template wie `translategemma:latest` auf Ollama Hub:
 
 ```
-FROM /Users/denniswittke/models/anime-translator-en-de-v9-Q4_K_M.gguf
+FROM /Users/<your-user>/models/anime-translator-en-de-v9-Q4_K_M.gguf
 
 TEMPLATE """{{- range $i, $_ := .Messages }}
 {{- $last := eq (len (slice $.Messages $i)) 1 }}
