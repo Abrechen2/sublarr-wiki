@@ -6,3 +6,6 @@
 
 # Local Claude Code overrides
 CLAUDE.local.md
+
+# private agent instructions
+CLAUDE.md
